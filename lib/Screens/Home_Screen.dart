@@ -16,6 +16,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late String myDate ;
+
   static _HomeScreenState of(BuildContext context) =>
       context.findAncestorStateOfType<_HomeScreenState>()!;
   @override
@@ -178,7 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           height:MediaQuery.of(context).size.width*0.30,
                           width: double.infinity,
                           decoration: BoxDecoration(
-                            color: Colors.grey.withOpacity(0.4),
+                            color: ThemingApp.of(context).tasksData[index]['color'],
                             borderRadius: BorderRadius.circular(15.0),
                             border: Border.all(
                               width: 1,

@@ -15,9 +15,10 @@ static _AddTaskState of(BuildContext context) =>
 }
 
 class _AddTaskState extends State<AddTask> {
+ Color containerColor = Colors.grey.shade500 ;
    TextEditingController title = TextEditingController();
 
-   TextEditingController note = TextEditingController();
+   TextEditingController description = TextEditingController();
 
    TextEditingController date = TextEditingController();
 
@@ -54,9 +55,9 @@ String ? repeatedValue;
 
       backgroundColor: ThemingApp.of(context).isMode? Colors.white : Colors.black,
 
-      body: Padding(
-        padding: const EdgeInsets.all(22.0),
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(22.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -97,13 +98,13 @@ String ? repeatedValue;
 //note
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 12.0),
-                child: Text('Note',style: TextStyle(
+                child: Text('The Task',style: TextStyle(
                   color: ThemingApp.of(context).isMode? Colors.black : Colors.white,
                   fontSize: 20
                 ),),
               ),
               TextField(
-                controller: note,
+                controller: description,
                 decoration: InputDecoration(
                   hintText: 'Enter Note Here',
                   focusedBorder: OutlineInputBorder(
@@ -135,8 +136,8 @@ String ? repeatedValue;
                 onTap: (){
                   setState(() {});
                   showDatePicker(context: context,
-                      initialDate: DateTime(2023),
-                      firstDate: DateTime(2023),
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime.now(),
                       lastDate: DateTime(2090)).then((value) {
                         date.text = DateFormat.yMMMMd().format(value!).toString();
                       });},
@@ -187,7 +188,7 @@ String ? repeatedValue;
                         decoration: InputDecoration(
                             suffixIcon: const Icon(Icons.watch_later_outlined,
                               color: Colors.grey,),
-                            hintText: 'Enter Date Here',
+                            hintText: 'Enter Start Time Here',
                             focusedBorder: OutlineInputBorder(
                               borderSide: const BorderSide(
                                 width: 1,
@@ -231,7 +232,7 @@ String ? repeatedValue;
                         controller: endTime,
                         decoration: InputDecoration(
                             suffixIcon: const Icon(Icons.watch_later_outlined, color: Colors.grey,),
-                            hintText: 'Enter Date Here',
+                            hintText: 'Enter End Time Here',
                             focusedBorder: OutlineInputBorder(
                               borderSide: const BorderSide(
                                 width: 1,
@@ -257,133 +258,136 @@ String ? repeatedValue;
             ),
 
 //Reminder
-           SingleChildScrollView(
-             child: Column(
-               mainAxisAlignment: MainAxisAlignment.start,
-               crossAxisAlignment: CrossAxisAlignment.stretch,
-               children: [
-                 Padding(
-                   padding: const EdgeInsets.symmetric(vertical: 12.0),
-                   child: Text('Reminder',style: TextStyle(
-                       color: ThemingApp.of(context).isMode? Colors.black : Colors.white,
-                       fontSize: 20
-                   ),),
-                 ),
+           Column(
+             mainAxisAlignment: MainAxisAlignment.start,
+             crossAxisAlignment: CrossAxisAlignment.stretch,
+             children: [
+               Padding(
+                 padding: const EdgeInsets.symmetric(vertical: 12.0),
+                 child: Text('Reminder',style: TextStyle(
+                     color: ThemingApp.of(context).isMode? Colors.black : Colors.white,
+                     fontSize: 20
+                 ),),
+               ),
  //ReminderText
-                 TextField(
-                   decoration: InputDecoration(
-                       suffixIcon:
-                       SizedBox(
-                         height: MediaQuery.of(context).size.height*0.06,
-                         child: DropdownButton<String>(
-                           value: dropdownValue,
-                           icon: Icon(Icons.keyboard_arrow_down_outlined,
-                             size: 33,
-                             color: myBlue,),
-                           style:  TextStyle(color: myBlue),
-                           onChanged: (String? value) {
-                             // This is called when the user selects an item.
-                             setState(() {
-                               dropdownValue = value!;
-                             });
-                           },
-                           items:const [
-                             DropdownMenuItem(value: '5',child: Text('5',style: TextStyle(fontSize: 23),)),
-                             DropdownMenuItem(value: '10', child: Text('10',style: TextStyle(fontSize: 23),)),
-                             DropdownMenuItem(value: '15', child: Text('15',style: TextStyle(fontSize: 23),)),
-                             DropdownMenuItem(value: '20', child: Text('20',style: TextStyle(fontSize: 23),)),
-                           ],),
+               TextField(
+                 decoration: InputDecoration(
+                     suffixIcon:
+                     SizedBox(
+                       height: MediaQuery.of(context).size.height*0.06,
+                       child: DropdownButton<String>(
+                         value: dropdownValue,
+                         icon: Icon(Icons.keyboard_arrow_down_outlined,
+                           size: 33,
+                           color: myBlue,),
+                         style:  TextStyle(color: myBlue),
+                         onChanged: (String? value) {
+                           // This is called when the user selects an item.
+                           setState(() {
+                             dropdownValue = value!;
+                           });
+                         },
+                         items:const [
+                           DropdownMenuItem(value: '5',child: Text('5',style: TextStyle(fontSize: 23),)),
+                           DropdownMenuItem(value: '10', child: Text('10',style: TextStyle(fontSize: 23),)),
+                           DropdownMenuItem(value: '15', child: Text('15',style: TextStyle(fontSize: 23),)),
+                           DropdownMenuItem(value: '20', child: Text('20',style: TextStyle(fontSize: 23),)),
+                         ],),
+                     ),
+                     hintText: 'Time before the task',
+                     focusedBorder: OutlineInputBorder(
+                       borderSide: const BorderSide(
+                         width: 1,
+                         color: Colors.grey,
                        ),
-                       hintText: 'Time before the task',
-                       focusedBorder: OutlineInputBorder(
-                         borderSide: const BorderSide(
-                           width: 1,
-                           color: Colors.grey,
-                         ),
-                         borderRadius: BorderRadius.circular(15),
+                       borderRadius: BorderRadius.circular(15),
+                     ),
+                     enabledBorder: OutlineInputBorder(
+                       borderSide: const BorderSide(
+                         width: 1,
+                         color: Colors.grey,
                        ),
-                       enabledBorder: OutlineInputBorder(
-                         borderSide: const BorderSide(
-                           width: 1,
-                           color: Colors.grey,
-                         ),
-                         borderRadius: BorderRadius.circular(15),
-                       )
+                       borderRadius: BorderRadius.circular(15),
+                     )
 
-                   ),
                  ),
+               ),
 //Repeated
-                 Padding(
-                   padding: const EdgeInsets.symmetric(vertical: 12.0),
-                   child: Text('Repeat',style: TextStyle(
-                       color: ThemingApp.of(context).isMode? Colors.black : Colors.white,
-                       fontSize: 20
-                   ),),
-                 ),
+               Padding(
+                 padding: const EdgeInsets.symmetric(vertical: 12.0),
+                 child: Text('Repeat',style: TextStyle(
+                     color: ThemingApp.of(context).isMode? Colors.black : Colors.white,
+                     fontSize: 20
+                 ),),
+               ),
 
-                 TextField(
-                   decoration: InputDecoration(
-                       suffixIcon:
-                       SizedBox(
-                         height: MediaQuery.of(context).size.height*0.06,
-                         child: DropdownButton<String>(
-                           value: repeatedValue,
-                           icon: Icon(Icons.keyboard_arrow_down_outlined,
-                             size: 33,
-                             color: myBlue,),
-                           style:  TextStyle(color: myBlue),
-                           onChanged: (String? value) {
-                             // This is called when the user selects an item.
-                             setState(() {
-                               repeatedValue = value!;
-                             });
-                           },
-                           items:const [
-                             DropdownMenuItem(value: '0',child: Text('0',style: TextStyle(fontSize: 23),)),
-                             DropdownMenuItem(value: '1', child: Text('1',style: TextStyle(fontSize: 23),)),
-                             DropdownMenuItem(value: '2', child: Text('2',style: TextStyle(fontSize: 23),)),
-                             DropdownMenuItem(value: '3', child: Text('3',style: TextStyle(fontSize: 23),)),
-                           ],),
+               TextField(
+                 decoration: InputDecoration(
+                     suffixIcon:
+                     SizedBox(
+                       height: MediaQuery.of(context).size.height*0.06,
+                       child: DropdownButton<String>(
+                         value: repeatedValue,
+                         icon: Icon(Icons.keyboard_arrow_down_outlined,
+                           size: 33,
+                           color: myBlue,),
+                         style:  TextStyle(color: myBlue),
+                         onChanged: (String? value) {
+                           // This is called when the user selects an item.
+                           setState(() {
+                             repeatedValue = value!;
+                           });
+                         },
+                         items:const [
+                           DropdownMenuItem(value: '0',child: Text('0',style: TextStyle(fontSize: 23),)),
+                           DropdownMenuItem(value: '1', child: Text('1',style: TextStyle(fontSize: 23),)),
+                           DropdownMenuItem(value: '2', child: Text('2',style: TextStyle(fontSize: 23),)),
+                           DropdownMenuItem(value: '3', child: Text('3',style: TextStyle(fontSize: 23),)),
+                         ],),
+                     ),
+                     hintText: 'Repeated Times',
+                     focusedBorder: OutlineInputBorder(
+                       borderSide: const BorderSide(
+                         width: 1,
+                         color: Colors.grey,
                        ),
-                       hintText: 'Repeated Times',
-                       focusedBorder: OutlineInputBorder(
-                         borderSide: const BorderSide(
-                           width: 1,
-                           color: Colors.grey,
-                         ),
-                         borderRadius: BorderRadius.circular(15),
+                       borderRadius: BorderRadius.circular(15),
+                     ),
+                     enabledBorder: OutlineInputBorder(
+                       borderSide: const BorderSide(
+                         width: 1,
+                         color: Colors.grey,
                        ),
-                       enabledBorder: OutlineInputBorder(
-                         borderSide: const BorderSide(
-                           width: 1,
-                           color: Colors.grey,
-                         ),
-                         borderRadius: BorderRadius.circular(15),
-                       )
+                       borderRadius: BorderRadius.circular(15),
+                     )
 
-                   ),
                  ),
+               ),
 //Color
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                     children: [
-                        Column(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                   children: [
+                      Column(
 
-                            children: [
+                          children: [
 
-              Text('Colors',style: TextStyle(
+            Text('Colors',style: TextStyle(
 
-                    color:  ThemingApp.of(context).isMode? Colors.black : Colors.white,
+                  color:  ThemingApp.of(context).isMode? Colors.black : Colors.white,
 
-                    fontSize: 30,)
+                  fontSize: 30,)
 
-                  ,),
+                ,),
 
-              Row(
+            Row(
 
-                  children: [
+                children: [
+                  GestureDetector(
+                    onTap: (){
+                      containerColor = Colors.purple;
 
-                    Container(
+                    },
+                    child: Container(
 
                     margin:const  EdgeInsets.all(3),
 
@@ -400,8 +404,13 @@ String ? repeatedValue;
                       ),
 
                     ),
+                  ),
 
-                    Container(
+                  GestureDetector(
+                    onTap: (){
+                      containerColor = Colors.pink;
+                    },
+                    child: Container(
 
                       margin:const  EdgeInsets.all(3),
 
@@ -418,8 +427,13 @@ String ? repeatedValue;
                       ),
 
                     ),
+                  ),
 
-                    Container(
+                  GestureDetector(
+                      onTap: (){
+                        containerColor = Colors.brown;
+                      },
+                    child: Container(
 
                       margin:const  EdgeInsets.all(3),
 
@@ -436,38 +450,42 @@ String ? repeatedValue;
                       ),
 
                     ),
+                  ),
 
-                  ],
+                ],
 
-              )
+            )
 
           ],
 
-      ),
-                       MaterialButton(onPressed: (){
-                         setState(() {});
-                         Navigator.push(context, MaterialPageRoute(builder: (context)=> const HomeScreen()));
-                         ThemingApp.of(context).addTask(title: title.text,
-                             description: note.text,
-                             endData: endTime.text,
-                             startData: startTime.text,
-                             date : date.text);
-                         print(ThemingApp.of(context).tasksData.toString());
-                       },
-                         color: myBlue,
-                         elevation: 8,
-                         shape: RoundedRectangleBorder(
-                             borderRadius: BorderRadius.circular(12)),
-                         minWidth:MediaQuery.of(context).size.width*.35,
-                         height: MediaQuery.of(context).size.height*0.06,
-                         child: const Text('Create Task',
-                           style: TextStyle(color: Colors.white,
-                               fontSize: 20),),)
+        ),
+                     MaterialButton(onPressed: (){
+
+                      setState(() {
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=> const HomeScreen()));
+                        ThemingApp.of(context).addTask(title: title.text,
+                            color: containerColor,
+                            description: description.text,
+                            endTime: endTime.text,
+                            startTime: startTime.text,
+                            date : date.text,
+                        );
+                        print(ThemingApp.of(context).tasksData.toString());
+                      });
+                     },
+                       color: myBlue,
+                       elevation: 8,
+                       shape: RoundedRectangleBorder(
+                           borderRadius: BorderRadius.circular(12)),
+                       minWidth:MediaQuery.of(context).size.width*.35,
+                       height: MediaQuery.of(context).size.height*0.06,
+                       child: const Text('Create Task',
+                         style: TextStyle(color: Colors.white,
+                             fontSize: 20),),)
     ],
   ),
 
-               ],
-             ),
+             ],
            )
 
             ],

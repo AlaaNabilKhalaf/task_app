@@ -34,15 +34,17 @@ class _ThemingAppState extends State<ThemingApp> {
   void addTask
       ({required title,
     required description ,
-    required startData ,
-    required endData ,
-  required date}) async {
+    required startTime ,
+    required endTime ,
+  required date,
+  required color}) async {
     await tasksRef.add({
       'title' : title,
       'description' : description,
-      'startDate' : startData,
-      'endDate' : endData,
-      'date' : date
+      'startTime' : startTime,
+      'endTime' : endTime,
+      'date' : date,
+      'color' : color
     });
     print('task added');
   }
@@ -54,16 +56,12 @@ class _ThemingAppState extends State<ThemingApp> {
       final task = tasksRef.get(key);
       if (task['date'] == date) {
         final mapTask = {
-          /// هنا انتي بتحاولي تملي قيم زي ال key , color
-          /// انتي فوق في ال insert اصلا مش ضيفاها فطبيعي هو هيدخل يدور عليهم هيلاقيهم ب null
-          /// فالحل اما انك تشيلي الحاجات الزيادة هنا
-          /// او انك تضيفيها فوق ال insert
           'key': key,
           'title': task['title'],
-          'startDate': task['startDate'], // وحدي اسامي المتغيرات , لازم الاسم فوق يكون نفس الاسم تحت عشان يعرف يقرأها
-          'endDate': task['endDate'],
+          'startTime': task['startTime'],
+          'endTime': task['endTime'],
           'description': task['description'],
-          // 'color':task['color'] ========> انتي فوق مش ضايفة اللون يبقى تشيليه تحت
+          'color' : task['color'],
         };
         list.add(mapTask);
         print(list[0]);
