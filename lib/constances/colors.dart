@@ -1,3 +1,3 @@
 import 'dart:ui';
 
-Color myBlue = const Color(0xff2C52E0);
+Color myPrimeColor = const Color(0xff8E3A59);

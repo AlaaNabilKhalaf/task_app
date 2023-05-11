@@ -33,18 +33,20 @@ class _ThemingAppState extends State<ThemingApp> {
 
   void addTask
       ({required title,
-    required description ,
-    required startTime ,
-    required endTime ,
+     description ,
+   startTime ,
+   endTime ,
   required date,
-  required Color color }) async {
+  required Color color,
+  required String taskState}) async {
     await tasksRef.add({
       'title' : title,
       'description' : description,
       'startTime' : startTime,
       'endTime' : endTime,
       'date' : date,
-      'color' : color.value
+      'color' : color.value,
+      'taskState' : taskState
     });
     print('task added');
   }
@@ -62,6 +64,7 @@ class _ThemingAppState extends State<ThemingApp> {
           'endTime': task['endTime'],
           'description': task['description'],
           'color' : task['color'],
+          'taskState' : task['taskState']
         };
         list.add(mapTask);
         print(list[0]);

@@ -37,12 +37,10 @@ dependencies:
   cupertino_icons: ^1.0.2
   hive:
   hive_flutter:
-  horizontalcalender:
   intl:
   date_picker_timeline:
-  path_provider:
-  provider:
-
+  rflutter_alert:
+  image_picker:
 
 
 dev_dependencies:

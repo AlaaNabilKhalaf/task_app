@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:note_app/Screens/Home_Screen.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import '../constances/colors.dart';
 import '../main.dart';
 
@@ -16,7 +17,7 @@ static _AddTaskState of(BuildContext context) =>
 
 class _AddTaskState extends State<AddTask> {
 
-late Color containerColor ;
+ Color containerColor = myPrimeColor;
 
    TextEditingController title = TextEditingController();
 
@@ -28,19 +29,19 @@ late Color containerColor ;
 
    TextEditingController endTime = TextEditingController();
 
-String ? dropdownValue;
+String ? dropdownValue ;
 String ? repeatedValue;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(icon :const Icon(Icons.arrow_back_ios),
+        leading: IconButton(icon : Icon(Icons.arrow_back_ios,color: myPrimeColor,),
         onPressed: (){
           setState(() {
           });
           Navigator.push(context, MaterialPageRoute(builder: (context)=> const HomeScreen()));
         },
-        color: myBlue, ),
+        color: myPrimeColor, ),
         actions: [
           IconButton(
           onPressed: (){
@@ -49,7 +50,7 @@ String ? repeatedValue;
             ThemingApp.of(context).changeMode();
           },
           icon: Icon(ThemingApp.of(context).isMode? Icons.nightlight_round : Icons.sunny,
-            color:  ThemingApp.of(context).isMode? Colors.black : Colors.white, ),),
+            color:  myPrimeColor ),),
         ],
         elevation: 0,
         backgroundColor: ThemingApp.of(context).isMode? Colors.white : Colors.black,
@@ -136,7 +137,6 @@ String ? repeatedValue;
               ),
               TextField(
                 keyboardType: TextInputType.none,
-
                 onTap: (){
                   setState(() {});
                   showDatePicker(context: context,
@@ -147,7 +147,7 @@ String ? repeatedValue;
                       });},
                 controller: date,
                 decoration: InputDecoration(
-                  suffixIcon: const Icon(Icons.calendar_month_outlined, color: Colors.grey,),
+                  suffixIcon: Icon(Icons.calendar_month_outlined, color: myPrimeColor,),
                   hintText: 'Enter Date Here',
                   focusedBorder: OutlineInputBorder(
                     borderSide: const BorderSide(
@@ -183,9 +183,7 @@ String ? repeatedValue;
                       ),
                       TextField(
                         keyboardType: TextInputType.none,
-
                         onTap: (){
-
                           setState(() {});
                           showTimePicker(context: context,
                               initialTime: TimeOfDay.now()).then((value) {
@@ -193,8 +191,8 @@ String ? repeatedValue;
                           });},
                         controller: startTime,
                         decoration: InputDecoration(
-                            suffixIcon: const Icon(Icons.watch_later_outlined,
-                              color: Colors.grey,),
+                            suffixIcon: Icon(Icons.watch_later_outlined,
+                              color: myPrimeColor,),
                             hintText: 'Enter Start Time Here',
                             focusedBorder: OutlineInputBorder(
                               borderSide: const BorderSide(
@@ -239,7 +237,7 @@ String ? repeatedValue;
                             endTime.text = value!.format(context);});},
                         controller: endTime,
                         decoration: InputDecoration(
-                            suffixIcon: const Icon(Icons.watch_later_outlined, color: Colors.grey,),
+                            suffixIcon: Icon(Icons.watch_later_outlined, color: myPrimeColor,),
                             hintText: 'Enter End Time Here',
                             focusedBorder: OutlineInputBorder(
                               borderSide: const BorderSide(
@@ -287,9 +285,10 @@ String ? repeatedValue;
                        child: DropdownButton<String>(
                          value: dropdownValue,
                          icon: Icon(Icons.keyboard_arrow_down_outlined,
-                           size: 33,
-                           color: myBlue,),
-                         style:  TextStyle(color: myBlue),
+                           color: myPrimeColor,),
+                         iconSize: 30,
+                         style:  TextStyle(color: myPrimeColor),
+                         underline: const SizedBox(height: 0,),
                          onChanged: (String? value) {
                            // This is called when the user selects an item.
                            setState(() {
@@ -303,7 +302,7 @@ String ? repeatedValue;
                            DropdownMenuItem(value: '20', child: Text('20',style: TextStyle(fontSize: 23),)),
                          ],),
                      ),
-                     hintText: 'Time before the task',
+                     hintText: dropdownValue == null ? 'Minutes before the task' : '$dropdownValue minutes  before the task',
                      focusedBorder: OutlineInputBorder(
                        borderSide: const BorderSide(
                          width: 1,
@@ -339,23 +338,23 @@ String ? repeatedValue;
                        child: DropdownButton<String>(
                          value: repeatedValue,
                          icon: Icon(Icons.keyboard_arrow_down_outlined,
-                           size: 33,
-                           color: myBlue,),
-                         style:  TextStyle(color: myBlue),
+                           color: myPrimeColor,),
+                         iconSize: 30,
+                         underline: const SizedBox(height: 0,),
                          onChanged: (String? value) {
                            // This is called when the user selects an item.
                            setState(() {
                              repeatedValue = value!;
                            });
                          },
-                         items:const [
-                           DropdownMenuItem(value: '0',child: Text('0',style: TextStyle(fontSize: 23),)),
-                           DropdownMenuItem(value: '1', child: Text('1',style: TextStyle(fontSize: 23),)),
-                           DropdownMenuItem(value: '2', child: Text('2',style: TextStyle(fontSize: 23),)),
-                           DropdownMenuItem(value: '3', child: Text('3',style: TextStyle(fontSize: 23),)),
+                         items: [
+                           DropdownMenuItem(value: '0',child: Text('Daily',style: TextStyle(fontSize: 23,color: myPrimeColor),)),
+                           DropdownMenuItem(value: '1', child: Text('Monthly',style: TextStyle(fontSize: 23,color: myPrimeColor),)),
+                           DropdownMenuItem(value: '2', child: Text('Yearly',style: TextStyle(fontSize: 23,color: myPrimeColor),)),
+                           DropdownMenuItem(value: '3', child: Text('None',style: TextStyle(fontSize: 23,color: myPrimeColor),)),
                          ],),
                      ),
-                     hintText: 'Repeated Times',
+                     hintText: repeatedValue == null ? 'Repeated Times' :  'Repeated ...',
                      focusedBorder: OutlineInputBorder(
                        borderSide: const BorderSide(
                          width: 1,
@@ -395,104 +394,111 @@ String ? repeatedValue;
                   GestureDetector(
                     onTap: (){
                       setState(() {
-
                       });
                       containerColor = Colors.purple;
-
                     },
-                    child: Container(
-
-                    margin:const  EdgeInsets.all(3),
-
-                      width: MediaQuery.of(context).size.width*0.08,
-
-                      height: MediaQuery.of(context).size.height*0.08,
-
-                      decoration: const BoxDecoration(
-
-                        shape: BoxShape.circle,
-
-                        color: Colors.purple
-
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CircleAvatar(
+                        backgroundColor: Colors.purple,
+                        radius: 18,
+                        child: Icon(Icons.check,size: 33,
+                          color: containerColor == Colors.purple ? Colors.grey : Colors.purple ,),
                       ),
-
                     ),
                   ),
 
-                  GestureDetector(
-                    onTap: (){
-                      setState(() {
-
-                      });
-                      containerColor = Colors.pink;
-                    },
-                    child: Container(
-
-                      margin:const  EdgeInsets.all(3),
-
-                      width: MediaQuery.of(context).size.width*0.08,
-
-                      height: MediaQuery.of(context).size.height*0.08,
-
-                      decoration: const BoxDecoration(
-
-                        shape: BoxShape.circle,
-
-                        color: Colors.pink
-
-                      ),
-
-                    ),
-                  ),
-
-                  GestureDetector(
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: GestureDetector(
                       onTap: (){
                         setState(() {
 
                         });
-                        containerColor = Colors.brown;
+                        containerColor = Colors.blueGrey;
                       },
-                    child: Container(
-
-                      margin:const  EdgeInsets.all(3),
-
-                      width: MediaQuery.of(context).size.width*0.08,
-
-                      height: MediaQuery.of(context).size.height*0.08,
-
-                      decoration: const BoxDecoration(
-
-                        shape: BoxShape.circle,
-
-                        color: Colors.brown
-
+                      child: CircleAvatar(
+                        backgroundColor: Colors.blueGrey,
+                        radius: 18,
+                        child: Icon(Icons.check,size: 33,
+                          color: containerColor == Colors.blueGrey ? Colors.grey : Colors.blueGrey ,),
                       ),
-
                     ),
                   ),
 
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: GestureDetector(
+                        onTap: (){
+                          setState(() {
+                          });
+                          containerColor = Colors.brown;
+                        },
+                      child: CircleAvatar(
+                        backgroundColor: Colors.brown,
+                        radius: 18,
+                        child: Icon(Icons.check,size: 33,
+                        color: containerColor == Colors.brown ? Colors.grey : Colors.brown ,),
+                      ),
+                    ),
+                  ),
                 ],
-
             )
-
           ],
 
         ),
                      MaterialButton(onPressed: (){
+                    //   Alert(context: context, title: "RFLUTTER", desc: "Flutter is awesome.").show();
+                         if(title.text == ' ' || title.text.isEmpty ){Alert(
+                           context: context,
+                           type: AlertType.warning,
+                           title: "WAIT",
+                           desc: "You Need To Enter Your Task Title First",
+                           buttons: [
+                             DialogButton(
+                               color: myPrimeColor,
+                               onPressed: () => Navigator.pop(context),
+                               width: 125,
+                               child: const Text(
+                                 "GOT IT",
+                                 style: TextStyle(color: Colors.white, fontSize: 25),
+                               ),
+                             )
+                           ],
+                         ).show();}
+                         if(date.text.isEmpty){Alert(
+                           context: context,
+                           type: AlertType.warning,
+                           title: "WAIT",
+                           desc: "You Need To Enter Your Task Date First",
+                           buttons: [
+                             DialogButton(
+                               color: myPrimeColor,
+                               onPressed: () => Navigator.pop(context),
+                               width: 125,
+                               child: const Text(
+                                 "GOT IT",
+                                 style: TextStyle(color: Colors.white, fontSize: 25),
+                               ),
+                             )
+                           ],
+                         ).show();}
+
+                        else{ Navigator.push(context, MaterialPageRoute(builder: (context)=> const HomeScreen()));
+                         ThemingApp.of(context).addTask(title: title.text,
+                           taskState: 'TODO',
+                           color: containerColor,
+                           description: description.text,
+                           endTime: endTime.text,
+                           startTime: startTime.text,
+                           date : date.text,
+                         );
+                         print(ThemingApp.of(context).tasksData.toString());}
 
                       setState(() {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=> const HomeScreen()));
-                        ThemingApp.of(context).addTask(title: title.text,
-                            color: containerColor,
-                            description: description.text,
-                            endTime: endTime.text,
-                            startTime: startTime.text,
-                            date : date.text,
-                        );
-                        print(ThemingApp.of(context).tasksData.toString());
                       });
                      },
-                       color: myBlue,
+                       color: myPrimeColor,
                        elevation: 8,
                        shape: RoundedRectangleBorder(
                            borderRadius: BorderRadius.circular(12)),
