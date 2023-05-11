@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:note_app/Screens/HomeScreen.dart';
 import 'package:note_app/cubits/hive_cubit/hive_states.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import '../Constants/colors.dart';
@@ -10,8 +9,6 @@ import '../cubits/hive_cubit/hive_cubit.dart';
 class AddTask extends StatefulWidget {
    const AddTask({Key? key}) : super(key: key);
 
-static _AddTaskState of(BuildContext context) =>
-    context.findAncestorStateOfType<_AddTaskState>()!;
   @override
   State<AddTask> createState() => _AddTaskState();
 }
@@ -20,7 +17,8 @@ class _AddTaskState extends State<AddTask> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HiveCubit,HiveStates>(
+    return
+      BlocConsumer<HiveCubit,HiveStates>(
       listener: (context, state ){},
       builder: (context, state ){
         final cubit = BlocProvider.of<HiveCubit>(context);
@@ -29,9 +27,14 @@ class _AddTaskState extends State<AddTask> {
           appBar: AppBar(
             leading: IconButton(icon : Icon(Icons.arrow_back_ios,color: myPrimeColor,),
               onPressed: (){
-                setState(() {
+                cubit.getTask(date: DateTime.now().toString());
+                Navigator.pop(context);
+                Future.delayed(const Duration(milliseconds: 500),(){
+                   cubit.makeAnimationValueTure();
+                    Future.delayed(const Duration(milliseconds: 500),(){
+                      cubit.changeAnimationValue();
+                    });
                 });
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> const HomeScreen()));
               },
               color: myPrimeColor, ),
             actions: [
@@ -86,6 +89,7 @@ class _AddTaskState extends State<AddTask> {
 
                     ),
                   ),
+
 //note
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12.0),
@@ -97,7 +101,7 @@ class _AddTaskState extends State<AddTask> {
                   TextField(
                     controller: cubit.description,
                     decoration: InputDecoration(
-                        hintText: 'Enter Note Here',
+                        hintText: 'Enter Task Here',
                         focusedBorder: OutlineInputBorder(
                           borderSide: const BorderSide(
                             width: 1,
@@ -115,6 +119,7 @@ class _AddTaskState extends State<AddTask> {
 
                     ),
                   ),
+
 //date
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12.0),
@@ -197,8 +202,6 @@ class _AddTaskState extends State<AddTask> {
                                   )
                               ),
                             ),
-
-
                           ],
                         ),
                       ),
@@ -250,113 +253,113 @@ class _AddTaskState extends State<AddTask> {
                   ),
 
 //Reminder
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 12.0),
-                        child: Text('Reminder',style: TextStyle(
-                            color: cubit.isMode? Colors.black : Colors.white,
-                            fontSize: 20
-                        ),),
-                      ),
-                      //ReminderText
-                      TextField(
-                        keyboardType: TextInputType.none,
-                        decoration: InputDecoration(
-                            suffixIcon:
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height*0.06,
-                              child: DropdownButton<String>(
-                                value: cubit.dropdownValue,
-                                icon: Icon(Icons.keyboard_arrow_down_outlined,
-                                  color: myPrimeColor,),
-                                iconSize: 30,
-                                style:  TextStyle(color: myPrimeColor),
-                                underline: const SizedBox(height: 0,),
-                                onChanged: (String? value) {
-
-                                    cubit.dropdownValue = value!;
-
-                                },
-                                items:const [
-                                  DropdownMenuItem(value: '5',child: Text('5',style: TextStyle(fontSize: 23),)),
-                                  DropdownMenuItem(value: '10', child: Text('10',style: TextStyle(fontSize: 23),)),
-                                  DropdownMenuItem(value: '15', child: Text('15',style: TextStyle(fontSize: 23),)),
-                                  DropdownMenuItem(value: '20', child: Text('20',style: TextStyle(fontSize: 23),)),
-                                ],),
-                            ),
-                            hintText: cubit.dropdownValue == null ? 'Minutes before the task' : '${cubit.dropdownValue} minutes  before the task',
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                width: 1,
-                                color: Colors.grey,
-                              ),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                width: 1,
-                                color: Colors.grey,
-                              ),
-                              borderRadius: BorderRadius.circular(15),
-                            )
-
-                        ),
-                      ),
-//Repeated
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 12.0),
-                        child: Text('Repeat',style: TextStyle(
-                            color: cubit.isMode? Colors.black : Colors.white,
-                            fontSize: 20
-                        ),),
-                      ),
-
-                      TextField(
-                        keyboardType: TextInputType.none,
-                        decoration: InputDecoration(
-                            suffixIcon:
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height*0.06,
-                              child: DropdownButton<String>(
-                                value: cubit.repeatedValue,
-                                icon: Icon(Icons.keyboard_arrow_down_outlined,
-                                  color: myPrimeColor,),
-                                iconSize: 30,
-                                underline: const SizedBox(height: 0,),
-                                onChanged: (String? value) {
-                                  // This is called when the user selects an item.
-                                  setState(() {
-                                    cubit.repeatedValue = value!;
-                                  });
-                                },
-                                items: [
-                                  DropdownMenuItem(value: '0',child: Text('Daily',style: TextStyle(fontSize: 23,color: myPrimeColor),)),
-                                  DropdownMenuItem(value: '1', child: Text('Monthly',style: TextStyle(fontSize: 23,color: myPrimeColor),)),
-                                  DropdownMenuItem(value: '2', child: Text('Yearly',style: TextStyle(fontSize: 23,color: myPrimeColor),)),
-                                  DropdownMenuItem(value: '3', child: Text('None',style: TextStyle(fontSize: 23,color: myPrimeColor),)),
-                                ],),
-                            ),
-                            hintText: cubit.repeatedValue == null ? 'Repeated Times' :  'Repeated ...',
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                width: 1,
-                                color: Colors.grey,
-                              ),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                width: 1,
-                                color: Colors.grey,
-                              ),
-                              borderRadius: BorderRadius.circular(15),
-                            )
-
-                        ),
-                      ),
+//                   Column(
+//                     mainAxisAlignment: MainAxisAlignment.start,
+//                     crossAxisAlignment: CrossAxisAlignment.stretch,
+//                     children: [
+//                       Padding(
+//                         padding: const EdgeInsets.symmetric(vertical: 12.0),
+//                         child: Text('Reminder',style: TextStyle(
+//                             color: cubit.isMode? Colors.black : Colors.white,
+//                             fontSize: 20
+//                         ),),
+//                       ),
+//                       //ReminderText
+//                       TextField(
+//                         keyboardType: TextInputType.none,
+//                         decoration: InputDecoration(
+//                             suffixIcon:
+//                             SizedBox(
+//                               height: MediaQuery.of(context).size.height*0.06,
+//                               child: DropdownButton<String>(
+//                                 value: cubit.dropdownValue,
+//                                 icon: Icon(Icons.keyboard_arrow_down_outlined,
+//                                   color: myPrimeColor,),
+//                                 iconSize: 30,
+//                                 style:  TextStyle(color: myPrimeColor),
+//                                 underline: const SizedBox(height: 0,),
+//                                 onChanged: (String? value) {
+//
+//                                     cubit.dropdownValue = value!;
+//
+//                                 },
+//                                 items:const [
+//                                   DropdownMenuItem(value: '5',child: Text('5',style: TextStyle(fontSize: 23),)),
+//                                   DropdownMenuItem(value: '10', child: Text('10',style: TextStyle(fontSize: 23),)),
+//                                   DropdownMenuItem(value: '15', child: Text('15',style: TextStyle(fontSize: 23),)),
+//                                   DropdownMenuItem(value: '20', child: Text('20',style: TextStyle(fontSize: 23),)),
+//                                 ],),
+//                             ),
+//                             hintText: cubit.dropdownValue == null ? 'Minutes before the task' : '${cubit.dropdownValue} minutes  before the task',
+//                             focusedBorder: OutlineInputBorder(
+//                               borderSide: const BorderSide(
+//                                 width: 1,
+//                                 color: Colors.grey,
+//                               ),
+//                               borderRadius: BorderRadius.circular(15),
+//                             ),
+//                             enabledBorder: OutlineInputBorder(
+//                               borderSide: const BorderSide(
+//                                 width: 1,
+//                                 color: Colors.grey,
+//                               ),
+//                               borderRadius: BorderRadius.circular(15),
+//                             )
+//
+//                         ),
+//                       ),
+// //Repeated
+//                       Padding(
+//                         padding: const EdgeInsets.symmetric(vertical: 12.0),
+//                         child: Text('Repeat',style: TextStyle(
+//                             color: cubit.isMode? Colors.black : Colors.white,
+//                             fontSize: 20
+//                         ),),
+//                       ),
+//
+//                       TextField(
+//                         keyboardType: TextInputType.none,
+//                         decoration: InputDecoration(
+//                             suffixIcon:
+//                             SizedBox(
+//                               height: MediaQuery.of(context).size.height*0.06,
+//                               child: DropdownButton<String>(
+//                                 value: cubit.repeatedValue,
+//                                 icon: Icon(Icons.keyboard_arrow_down_outlined,
+//                                   color: myPrimeColor,),
+//                                 iconSize: 30,
+//                                 underline: const SizedBox(height: 0,),
+//                                 onChanged: (String? value) {
+//                                   // This is called when the user selects an item.
+//                                   setState(() {
+//                                     cubit.repeatedValue = value!;
+//                                   });
+//                                 },
+//                                 items: [
+//                                   DropdownMenuItem(value: '0',child: Text('Daily',style: TextStyle(fontSize: 23,color: myPrimeColor),)),
+//                                   DropdownMenuItem(value: '1', child: Text('Monthly',style: TextStyle(fontSize: 23,color: myPrimeColor),)),
+//                                   DropdownMenuItem(value: '2', child: Text('Yearly',style: TextStyle(fontSize: 23,color: myPrimeColor),)),
+//                                   DropdownMenuItem(value: '3', child: Text('None',style: TextStyle(fontSize: 23,color: myPrimeColor),)),
+//                                 ],),
+//                             ),
+//                             hintText: cubit.repeatedValue == null ? 'Repeated Times' :  'Repeated ...',
+//                             focusedBorder: OutlineInputBorder(
+//                               borderSide: const BorderSide(
+//                                 width: 1,
+//                                 color: Colors.grey,
+//                               ),
+//                               borderRadius: BorderRadius.circular(15),
+//                             ),
+//                             enabledBorder: OutlineInputBorder(
+//                               borderSide: const BorderSide(
+//                                 width: 1,
+//                                 color: Colors.grey,
+//                               ),
+//                               borderRadius: BorderRadius.circular(15),
+//                             )
+//
+//                         ),
+//                       ),
 //Color
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -405,7 +408,6 @@ class _AddTaskState extends State<AddTask> {
                                       onDoubleTap: (){
                                         cubit.containerColor = myPrimeColor;
                                         setState(() {
-
                                         });
                                       },
                                       onTap: (){
@@ -449,27 +451,32 @@ class _AddTaskState extends State<AddTask> {
                             ],
 
                           ),
-                          MaterialButton(onPressed: (){
-
+                          MaterialButton(onPressed: () async {
                             //   Alert(context: context, title: "FLUTTER", desc: "Flutter is awesome.").show();
-                            if(cubit.title.text == ' ' || cubit.title.text.isEmpty ){Alert(
-                              context: context,
-                              type: AlertType.warning,
-                              title: "WAIT",
-                              desc: "You Need To Enter Your Task Title First",
-                              buttons: [
-                                DialogButton(
-                                  color: myPrimeColor,
-                                  onPressed: () => Navigator.pop(context),
-                                  width: 125,
-                                  child: const Text(
-                                    "GOT IT",
-                                    style: TextStyle(color: Colors.white, fontSize: 25),
-                                  ),
-                                )
-                              ],
-                            ).show();}
-                            if(cubit.date.text.isEmpty){Alert(
+                            cubit.makeAnimationValueTure();
+                            if(cubit.title.text == ' ' || cubit.title.text.isEmpty ){
+
+                                Alert(
+                                  context: context,
+                                  type: AlertType.warning,
+                                  title: "WAIT",
+                                  desc: "You Need To Enter Your Task Title First",
+                                  buttons: [
+                                    DialogButton(
+                                      color: myPrimeColor,
+                                      onPressed: () => Navigator.pop(context),
+                                      width: 125,
+                                      child: const Text(
+                                        "GOT IT",
+                                        style: TextStyle(color: Colors.white, fontSize: 25),
+                                      ),
+                                    )
+                                  ],
+                                ).show();
+
+                            }
+                            if(cubit.date.text.isEmpty){
+                              Alert(
                               context: context,
                               type: AlertType.warning,
                               title: "WAIT",
@@ -488,7 +495,8 @@ class _AddTaskState extends State<AddTask> {
                             ).show();}
 
                             else{
-                            cubit.addTask(title: cubit.title.text,
+                              Navigator.pop(context);
+                           await cubit.addTask(title: cubit.title.text,
                               taskState: 'TODO',
                               color: cubit.containerColor,
                               description: cubit.description.text,
@@ -496,9 +504,15 @@ class _AddTaskState extends State<AddTask> {
                               startTime: cubit.startTime.text,
                               date : cubit.date.text,
                             );
-                            cubit.getTask(date: DateTime.now().toString());
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=> const HomeScreen()));
                            }
+                            Future.delayed(const Duration(milliseconds: 500),(){
+                              setState(() {
+                                cubit.startAnimated = true;
+                                Future.delayed(const Duration(milliseconds: 500),(){
+                                  cubit.startAnimated = ! cubit.startAnimated ;
+                                });
+                              });
+                            });
                           },
                             color: myPrimeColor,
                             elevation: 8,
@@ -515,10 +529,8 @@ class _AddTaskState extends State<AddTask> {
                     ],
                   )
 
-                ],
               ),
             ),
-          ),
 
           backgroundColor: cubit.isMode? Colors.white : Colors.black,
         );
@@ -526,3 +538,4 @@ class _AddTaskState extends State<AddTask> {
     );
   }
 }
+

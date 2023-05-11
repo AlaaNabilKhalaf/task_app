@@ -6,9 +6,7 @@ import 'package:note_app/cubits/hive_cubit/hive_states.dart';
 import '../Constants/colors.dart';
 
 class TaskScreen extends StatelessWidget {
- const TaskScreen({super.key, required task});
-
-  get task => this.task;
+ const TaskScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +27,10 @@ class TaskScreen extends StatelessWidget {
               padding: const EdgeInsets.all(25.0),
               child: Column(
                 children: [
-                  const Text('Hello, There',style: TextStyle(
+                  const Text('Hello, Beauty',style: TextStyle(
                     fontSize: 40,
                   ),),
-                  const  Text('You Have a New Reminder',style: TextStyle(
+                  const  Text('Remember To Take It Easy ',style: TextStyle(
                       color: Colors.grey,
                       fontSize: 20
                   ),),
@@ -52,11 +50,11 @@ class TaskScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
+                              const Padding(
+                                padding: EdgeInsets.all(10.0),
                                 child: Row(
                                   //title
-                                  children: const [
+                                  children:  [
                                     Icon(Icons.title,color: CupertinoColors.white,size: 33,),
                                     SizedBox(width: 15,),
                                     Text('Title',style: TextStyle(color: Colors.white,fontSize: 40),),
@@ -66,16 +64,16 @@ class TaskScreen extends StatelessWidget {
 
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text(task['title'].toString(), style: const TextStyle(
+                                child: Text(cubit.task['title'].toString(), style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 28
                                 ),),
                               ),
                               //description
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
+                              const Padding(
+                                padding: EdgeInsets.all(10.0),
                                 child: Row(
-                                  children: const [
+                                  children:  [
                                     Icon(Icons.file_copy,color: CupertinoColors.white,size: 33,),
                                     SizedBox(width: 15,),
                                     Text('Description',style: TextStyle(color: Colors.white,fontSize: 40),),
@@ -84,16 +82,16 @@ class TaskScreen extends StatelessWidget {
                               ),
                              Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child:  Text(task['description'].toString(),  style: const TextStyle(
+                                child:  Text(cubit.task['description'].toString(),  style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 30
                                 ),),
                               ),
                               //date
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
+                              const Padding(
+                                padding:  EdgeInsets.all(10.0),
                                 child: Row(
-                                  children: const [
+                                  children:[
                                     Icon(Icons.calendar_month_sharp,color: CupertinoColors.white,size: 33,),
                                     SizedBox(width: 15,),
                                     Text('Date',style: TextStyle(color: Colors.white,fontSize: 40),),
@@ -102,28 +100,31 @@ class TaskScreen extends StatelessWidget {
                               ),
                              Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child:  Text(task['date'].toString(),  style: const TextStyle(
+                                child:  Text(cubit.task['date'].toString(),  style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 30
                                 ),),
                               ),
                               //time
-                             // if(cubit.tasksData[index]['startTime'] == null || cubit.tasksData[index]['endTime'] == null  )
-                             //   const SizedBox(height: 10,),
-                             // if(cubit.tasksData[index]['startTime'] != '' || cubit.tasksData[index]['endTime'] != '' )
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
+                             if(cubit.task['startTime'] == null || cubit.task['endTime'] == null  )
+                               const SizedBox(height: 10,),
+                          if(cubit.task['startTime'] != '' || cubit.task['endTime'] != '' )
+                            const  Padding(
+                                padding: EdgeInsets.all(10.0),
                                 child: Row(
-                                  children: const [
+                                  children: [
                                     Icon(Icons.watch_later_outlined,color: CupertinoColors.white,size: 33,),
                                     SizedBox(width: 15,),
                                     Text('Time',style: TextStyle(color: Colors.white,fontSize: 40),),
                                   ],
                                 ),
                               ),
+                              if(cubit.task['startTime'] == null || cubit.task['endTime'] == null  )
+                                const SizedBox(height: 10,),
+                              if(cubit.task['startTime'] != '' || cubit.task['endTime'] != '' )
                                   Padding(
                                 padding:const EdgeInsets.all(8.0),
-                                child:  Text( '${task['startTime']} - ${task['endTime']}'
+                                child:  Text( '${cubit.task['startTime']} - ${cubit.task['endTime']}'
                                 ,  style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 30
