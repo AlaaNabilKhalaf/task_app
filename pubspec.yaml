@@ -41,6 +41,8 @@ dependencies:
   date_picker_timeline:
   rflutter_alert:
   image_picker:
+  bloc:
+  flutter_bloc:
 
 
 dev_dependencies:
