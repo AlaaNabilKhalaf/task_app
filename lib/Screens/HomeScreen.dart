@@ -1,3 +1,4 @@
+
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,35 +18,19 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool startAnimated = false ;
-
-  @override
-  // void initState() {
-  //   super.initState();
-  //   WidgetsBinding.instance.addPostFrameCallback((timeStamp) { });
-  //   setState(() {
-  //     startAnimated = true ;
-  //   });
-  // }
+@override
+  void initState() async{
+  BlocProvider.of<HiveCubit>(context).getTask(date: DateTime.now().toString());
+  setState(() {
+  });
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-
-  // Widget Calender (){
-  //   final FixedExtentScrollController itemController =
-  //   FixedExtentScrollController();
-  //   return Container(
-  //   //  alignment: Alignment.topRight,
-  //       height: MediaQuery.of(context).size.height*0.7,
-  //       width: double.infinity,
-  //       padding: const EdgeInsets.symmetric(horizontal: 20.0),
-  //       child: HorizontalCalendar(DateTime.now(),
-  //           width: MediaQuery.of(context).size.width*.25,
-  //         height: MediaQuery.of(context).size.height*0.15,
-  //           selectionColor: myBlue,
-  //           itemController: itemController,
-  //      ));
-  //   }
     final cubit = BlocProvider.of<HiveCubit>(context);
+    HiveCubit().getTask(date: DateTime.now().toString());
     return BlocConsumer<HiveCubit,HiveStates>(
       listener: (context,state){},
       builder: (context , state) {
@@ -65,8 +50,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: myPrimeColor),),
           actions: [
             GestureDetector(
-              onTap: () {
-                try{cubit.pickImage();}catch(e){
+              onTap: () async{
+                try {
+                 await cubit.pickImage();
+                  await cubit.addImage(
+                    image: cubit.pickImage());
+                  cubit.getImage();
+                }catch(e){
                   print('the error is $e');
                 }
               },
@@ -115,6 +105,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   MaterialButton(onPressed: ()
                   {
+                   setState(() {
+                     startAnimated = false ;
+                   });
                     cubit.clearValues();
                     Navigator.push(context, MaterialPageRoute(builder: (context)=> const AddTask()));
                   },
@@ -160,9 +153,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: Colors.grey
                   ),
                   onDateChange: (data){
-                  Future.delayed(Duration(milliseconds: 500),(){
+                  Future.delayed(const Duration(milliseconds: 500),(){
                   setState(() {
                   startAnimated = true;
+                  Future.delayed(const Duration(milliseconds: 500),(){
+                    startAnimated = ! startAnimated ;
+                  });
                   });
                   });
                     cubit.myDate = DateFormat.yMMMMd().format(data);
@@ -206,8 +202,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             borderRadius: BorderRadius.circular(15.0),),
                           height:MediaQuery.of(context).size.width*0.30,
                           curve: Curves.easeInOut,
-                          transform: Matrix4.translationValues(startAnimated ? 0 : double.infinity, 0, 0),
-                          duration: Duration(milliseconds: 300 + (index * 100)),
+                          transform: Matrix4.translationValues(startAnimated ? 0 :
+                          MediaQuery.of(context).size.width*0.8, 0, 0),
+                          duration:  Duration(milliseconds: 300 + (index * 200) ),
                           child: Row(
                         children: [
                         Expanded(
@@ -215,10 +212,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: GestureDetector(
                             onTap: (){
                               setState(() {
+                                cubit.task = cubit.tasksData[index];
                               });
                               cubit.clearValues();
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>
-                                  TaskScreen(task: cubit.tasksData[index],)));
+                                const  TaskScreen()));
                             },
                             child: SingleChildScrollView(
                               physics: const BouncingScrollPhysics(),
@@ -281,6 +279,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       cubit.tasksData[index]['taskState'] = 'Completed';
                       setState(() {
                       Navigator.pop(context);
+                      startAnimated = true ;
                       });
                       },
                       color: myPrimeColor,
@@ -299,7 +298,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       cubit.tasksData[index]['key']);
                       cubit.getTask(date: cubit.myDate);
                       Navigator.pop(context);
-
+                      startAnimated = true ;
                       },
                       color: Colors.redAccent,
                       elevation: 8,
@@ -313,19 +312,27 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       const  SizedBox(height: 35,),
 
-                      Container(
-                      alignment: Alignment.center,
-                      width: double.infinity,
-                      height: MediaQuery.of(context).size.height*0.06,
-                      decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(
-                      width: 1
-                      )
-                      ),
-                      child: Text('Close',
-                      style: TextStyle(color: myPrimeColor,
-                      fontSize: 30),),
+                      GestureDetector(
+                        onTap: (){
+                          setState(() {
+                            Navigator.pop(context);
+                            startAnimated = true ;
+                          });
+                        },
+                        child: Container(
+                        alignment: Alignment.center,
+                        width: double.infinity,
+                        height: MediaQuery.of(context).size.height*0.06,
+                        decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(
+                        width: 1
+                        )
+                        ),
+                        child: Text('Close',
+                        style: TextStyle(color: myPrimeColor,
+                        fontSize: 30),),
+                        ),
                       )
 
                       ],
@@ -361,7 +368,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
           ],
         ),
-
           backgroundColor: cubit.isMode? Colors.white : Colors.black,
       ); },
 

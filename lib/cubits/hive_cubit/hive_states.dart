@@ -8,4 +8,6 @@ class TaskAdded extends HiveStates {}
 class ImageChosen extends HiveStates {}
 class TasksReturned extends HiveStates {}
 class DataCleared extends HiveStates {}
+class ImagePathReturned extends HiveStates {}
+class ImagePathAdded extends HiveStates {}
 

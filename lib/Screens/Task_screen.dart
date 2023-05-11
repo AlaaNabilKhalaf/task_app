@@ -6,9 +6,7 @@ import 'package:note_app/cubits/hive_cubit/hive_states.dart';
 import '../Constants/colors.dart';
 
 class TaskScreen extends StatelessWidget {
- const TaskScreen({super.key, required task});
-
-  get task => this.task;
+ const TaskScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +64,7 @@ class TaskScreen extends StatelessWidget {
 
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text(task['title'].toString(), style: const TextStyle(
+                                child: Text(cubit.task['title'].toString(), style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 28
                                 ),),
@@ -84,7 +82,7 @@ class TaskScreen extends StatelessWidget {
                               ),
                              Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child:  Text(task['description'].toString(),  style: const TextStyle(
+                                child:  Text(cubit.task['description'].toString(),  style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 30
                                 ),),
@@ -102,15 +100,15 @@ class TaskScreen extends StatelessWidget {
                               ),
                              Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child:  Text(task['date'].toString(),  style: const TextStyle(
+                                child:  Text(cubit.task['date'].toString(),  style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 30
                                 ),),
                               ),
                               //time
-                             // if(cubit.tasksData[index]['startTime'] == null || cubit.tasksData[index]['endTime'] == null  )
-                             //   const SizedBox(height: 10,),
-                             // if(cubit.tasksData[index]['startTime'] != '' || cubit.tasksData[index]['endTime'] != '' )
+                             if(cubit.task['startTime'] == null || cubit.task['endTime'] == null  )
+                               const SizedBox(height: 10,),
+                          if(cubit.task['startTime'] != '' || cubit.task['endTime'] != '' )
                               Padding(
                                 padding: const EdgeInsets.all(10.0),
                                 child: Row(
@@ -121,9 +119,12 @@ class TaskScreen extends StatelessWidget {
                                   ],
                                 ),
                               ),
+                              if(cubit.task['startTime'] == null || cubit.task['endTime'] == null  )
+                                const SizedBox(height: 10,),
+                              if(cubit.task['startTime'] != '' || cubit.task['endTime'] != '' )
                                   Padding(
                                 padding:const EdgeInsets.all(8.0),
-                                child:  Text( '${task['startTime']} - ${task['endTime']}'
+                                child:  Text( '${cubit.task['startTime']} - ${cubit.task['endTime']}'
                                 ,  style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 30

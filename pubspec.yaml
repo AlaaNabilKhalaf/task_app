@@ -43,6 +43,8 @@ dependencies:
   image_picker:
   bloc:
   flutter_bloc:
+  flutter_local_notifications:
+
 
 
 dev_dependencies:

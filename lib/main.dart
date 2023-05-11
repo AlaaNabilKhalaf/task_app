@@ -25,8 +25,10 @@ class ThemingApp extends StatefulWidget {
 }
 class _ThemingAppState extends State<ThemingApp> {
 
+
   @override
   Widget build(BuildContext context) {
+
     return BlocProvider(
       create: (context)=> HiveCubit(),
       child: BlocConsumer<HiveCubit,HiveStates>(

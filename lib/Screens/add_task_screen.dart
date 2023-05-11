@@ -97,7 +97,7 @@ class _AddTaskState extends State<AddTask> {
                   TextField(
                     controller: cubit.description,
                     decoration: InputDecoration(
-                        hintText: 'Enter Note Here',
+                        hintText: 'Enter Task Here',
                         focusedBorder: OutlineInputBorder(
                           borderSide: const BorderSide(
                             width: 1,
@@ -405,7 +405,6 @@ class _AddTaskState extends State<AddTask> {
                                       onDoubleTap: (){
                                         cubit.containerColor = myPrimeColor;
                                         setState(() {
-
                                         });
                                       },
                                       onTap: (){
@@ -450,7 +449,6 @@ class _AddTaskState extends State<AddTask> {
 
                           ),
                           MaterialButton(onPressed: (){
-
                             //   Alert(context: context, title: "FLUTTER", desc: "Flutter is awesome.").show();
                             if(cubit.title.text == ' ' || cubit.title.text.isEmpty ){Alert(
                               context: context,
@@ -488,6 +486,8 @@ class _AddTaskState extends State<AddTask> {
                             ).show();}
 
                             else{
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=> const HomeScreen()));
+
                             cubit.addTask(title: cubit.title.text,
                               taskState: 'TODO',
                               color: cubit.containerColor,
@@ -496,8 +496,8 @@ class _AddTaskState extends State<AddTask> {
                               startTime: cubit.startTime.text,
                               date : cubit.date.text,
                             );
-                            cubit.getTask(date: DateTime.now().toString());
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=> const HomeScreen()));
+                              cubit.getTask(date: DateTime.now().toString());
+
                            }
                           },
                             color: myPrimeColor,
