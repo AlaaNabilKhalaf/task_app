@@ -22,13 +22,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final cubit = BlocProvider.of<HiveCubit>(context);
-   cubit.getTask(date: cubit.myDate);
+   cubit.getTask(date: DateFormat.yMMMMd().format(cubit.initialData).toString());
     cubit.changeAnimationValue();
     Future.delayed(const Duration(milliseconds: 500),(){
       cubit.makeAnimationValueTure();
-      // Future.delayed(const Duration(milliseconds: 500),(){
-      //
-      // });
     });
     return BlocConsumer<HiveCubit,HiveStates>(
       listener: (context,state){},
@@ -108,10 +105,29 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         Padding(
                           padding:const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Text('Today',style: TextStyle(
-                              color: cubit.isMode? Colors.black : Colors.white,
-                              fontSize: 30
-                          ),),
+                          child: GestureDetector(
+                            onTap: (){
+                     setState(() {
+                       cubit.initialSelectedDate = DateTime.now();
+                       cubit.taskType = 'Old Tasks';
+                       cubit.initialData = DateTime.now();
+                     });
+                            },
+                            onDoubleTap: (){
+                              setState(() {
+                                cubit.initialSelectedDate = DateTime.now().subtract(const Duration(days: 5));
+                                cubit.taskType = 'Today Tasks';
+                                cubit.initialData = DateTime.now().subtract(const Duration(days: 5));
+                              });
+                            },
+                            child: SizedBox(
+                              height: 50,width: 200,
+                              child: Text(cubit.taskType,style: TextStyle(
+                                  color: cubit.isMode? Colors.black : Colors.white,
+                                  fontSize: 32
+                              ),),
+                            ),
+                          ),
                         )
                       ]
                   ),
@@ -146,7 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   color : cubit.isMode? Colors.white : Colors.black,
                 ),
                 child: DatePicker(
-                  DateTime.now(),
+                  cubit.initialData,
                   width: MediaQuery.of(context).size.width*0.23,
                   height: MediaQuery.of(context).size.height*0.6,
                   initialSelectedDate: DateTime.now(),
@@ -175,6 +191,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     cubit.myDate = DateFormat.yMMMMd().format(data);
                     cubit.getTask(date: cubit.myDate.toString());
                   },),),),
+
+
             cubit.tasksData.isEmpty?
 
           const  MyDefaultHomeScreen() :
@@ -281,7 +299,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 cubit.changeState(index: index);
                                                 Navigator.pop(context);
                                                 cubit.makeAnimationValueTure();
-
                                               },
                                               color: myPrimeColor,
                                               elevation: 8,

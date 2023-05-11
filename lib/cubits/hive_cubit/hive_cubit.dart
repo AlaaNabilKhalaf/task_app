@@ -18,15 +18,19 @@ class HiveCubit extends Cubit<HiveStates> {
 
   String? imageOfTheTask;
 
-  bool startAnimated = false;
+  DateTime initialData = DateTime.now().subtract(const Duration(days: 5));
+  final today = DateTime.now();
+  final fiveDaysAgo = DateTime.now().subtract(const Duration(days: 5));
 
-  bool theTextBool = true ;
+  bool startAnimated = false;
 
   int selectedIndex = 5;
 
   //bool changeContainerColor = false ;
 
   dynamic task;
+
+  DateTime initialSelectedDate = DateTime.now().subtract(const Duration(days: 5));
 
   int textIndex = 5 ;
 
@@ -255,6 +259,22 @@ void changeState({required int index}){
   {tasksData[index]['taskState'] = 'Complete';}
    emit(ChangeState());
 }
+String taskType = 'TodayTask' ;
+ changeTaskType(){
 
+if( initialData == DateTime.now())
+  {
+    taskType = 'Old Tasks' ;}
+else
+{
+
+  taskType = 'Today Tasks' ;}
+emit(TaskTypeReturned());
+}
+
+changeDate(){
+  initialData = DateTime.now();
+   emit(DateChanged());
+}
 
 }

@@ -111,8 +111,9 @@ class TaskScreen extends StatelessWidget {
                                             ),
                                           ],
                                         ),
-
+SizedBox(width: 80,)
                                       ],
+
                                     ),
                                    if(cubit.task['taskImage'] == null)
                                      SizedBox(width: MediaQuery.of(context).size.width*0.1,

@@ -22,6 +22,8 @@ class TheTextChanged extends HiveStates {}
 class TextIndexReturned extends HiveStates {}
 class ContainerTextInserted extends HiveStates {}
 class ChangeState extends HiveStates {}
+class TaskTypeReturned extends HiveStates {}
+class DateChanged extends HiveStates {}
 
 
 

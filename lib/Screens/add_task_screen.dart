@@ -134,7 +134,7 @@ class _AddTaskState extends State<AddTask> {
                     onTap: (){
                       showDatePicker(context: context,
                           initialDate: DateTime.now(),
-                          firstDate: DateTime.now(),
+                          firstDate: DateTime.now().subtract(const Duration(days: 5)),
                           lastDate: DateTime(2090)).then((value) {
                         cubit.date.text = DateFormat.yMMMMd().format(value!).toString();
                       });},
