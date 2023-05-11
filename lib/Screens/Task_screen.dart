@@ -1,3 +1,4 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,6 +22,26 @@ class TaskScreen extends StatelessWidget {
             appBar: AppBar(
               backgroundColor:cubit.isMode? Colors.white : Colors.black,
               elevation: 0,
+              leading: IconButton(icon : Icon(Icons.arrow_back_ios,color: myPrimeColor,),
+                onPressed: (){
+                  Navigator.pop(context);
+                  cubit.getTask(date: cubit.myDate);
+                  Future.delayed(const Duration(milliseconds: 500),(){
+                    cubit.makeAnimationValueTure();
+                    Future.delayed(const Duration(milliseconds: 500),(){
+                      cubit.changeAnimationValue();
+                    });
+                  });
+                },
+                color: myPrimeColor, ),
+              actions: [
+                IconButton(
+                  onPressed: (){
+                    cubit.changeMode();
+                  },
+                  icon: Icon(cubit.isMode? Icons.nightlight_round : Icons.sunny,
+                      color:  myPrimeColor ),),
+              ],
             ),
 
             body: Padding(
@@ -45,23 +66,39 @@ class TaskScreen extends StatelessWidget {
                       ),
                       child: SingleChildScrollView(
                         child: Padding(
-                          padding: const EdgeInsets.all(25.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 25.0,
+                          vertical: 10),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.all(10.0),
+                                padding: const EdgeInsets.symmetric(horizontal: 10.0,),
                                 child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   //title
                                   children:  [
-                                   const Icon(Icons.title,color: CupertinoColors.white,size: 33,),
-                                  const  SizedBox(width: 15,),
-                                    const Text('Title',style: TextStyle(color: Colors.white,fontSize: 40),),
-                                    if(cubit.task['taskImage'] != '')
-                                      Image.asset('${cubit.task['taskImage']}',
-                                        width: MediaQuery.of(context).size.width*0.3,
-                                        height: MediaQuery.of(context).size.height*0.3,),
+                                  const  Row(
+                                      children:  [
+                                        Icon(Icons.title,color: CupertinoColors.white,size: 33,),
+                                        SizedBox(width: 15,),
+                                         Text('Title',style: TextStyle(color: Colors.white,fontSize: 40),),
+                                      ],
+                                    ),
+                                   if(cubit.task['taskImage'] == null)
+                                     SizedBox(width: MediaQuery.of(context).size.width*0.3,
+                                       height: MediaQuery.of(context).size.height*0.15,),
+                                   if(cubit.task['taskImage'] != null )
+                                      Row(
+                                        children: [
+                                          SizedBox(width: MediaQuery.of(context).size.width*0.3,
+                                            height: MediaQuery.of(context).size.height*0.15,
+                                            child: Image.asset('${cubit.task['taskImage']}',
+                                              width: MediaQuery.of(context).size.width*0.3,
+                                              height: MediaQuery.of(context).size.height*0.15,),
+                                          ),
+                                        ],
+                                      ),
                                   ],
                                 ),
                               ),
@@ -134,7 +171,6 @@ class TaskScreen extends StatelessWidget {
                                     fontSize: 30
                                 ),),
                               ),
-
                             ],
                           ),
                         ),

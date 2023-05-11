@@ -13,38 +13,36 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
 
   @override
-  // void initState(){
-  //   Future.delayed(const Duration(seconds:3),(){
-  //     Navigator.pushReplacement(context, MaterialPageRoute
-  //       (builder: (context)=> const HomeScreen()));
-  //     Future.delayed(const Duration(milliseconds: 500),(){
-  //         BlocProvider.of<HiveCubit>(context).makeAnimationValueTure();
-  //         Future.delayed(const Duration(milliseconds: 500),(){
-  //           BlocProvider.of<HiveCubit>(context).changeAnimationValue();
-  //         });
-  //     });
-  //   });
-  //   HiveCubit().getTask(date: DateTime.now().toString());
-  //   super.initState();
-  // }
+  void initState(){
+    Future.delayed(const Duration(seconds:3),(){
+      Navigator.pushReplacement(context, MaterialPageRoute
+        (builder: (context)=> const HomeScreen()));
+      Future.delayed(const Duration(milliseconds: 100),(){
+          BlocProvider.of<HiveCubit>(context).makeAnimationValueTure();
+          Future.delayed(const Duration(milliseconds: 400),(){
+            BlocProvider.of<HiveCubit>(context).changeAnimationValue();
+          });
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return  SafeArea(
-      child: Scaffold(
-        backgroundColor: myPrimeColor,
-        body: GestureDetector(
-          onTap: (){
-            Navigator.pushReplacement(context, MaterialPageRoute
+      child: GestureDetector(
+        onTap: (){
+          Navigator.pushReplacement(context, MaterialPageRoute
             (builder: (context)=> const HomeScreen()));
-            BlocProvider.of<HiveCubit>(context).getTask(date: DateTime.may.toString());
-          Future.delayed(const Duration(milliseconds: 500),(){
+          Future.delayed(const Duration(milliseconds: 100),(){
             BlocProvider.of<HiveCubit>(context).makeAnimationValueTure();
             Future.delayed(const Duration(milliseconds: 500),(){
               BlocProvider.of<HiveCubit>(context).changeAnimationValue();
             });
           });},
-          child: Padding(
+        child: Scaffold(
+          backgroundColor: myPrimeColor,
+          body: Padding(
             padding: const EdgeInsets.all(25),
             child: Column(
               children: [

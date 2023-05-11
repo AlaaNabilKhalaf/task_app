@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:note_app/cubits/hive_cubit/hive_states.dart';
 import '../../Constants/colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +18,7 @@ class HiveCubit extends Cubit<HiveStates>{
 
  // bool taskImageBool = false ;
 
-  String imageOfTheTask = '';
+   String? imageOfTheTask ;
 
    bool startAnimated = false ;
 
@@ -70,11 +71,11 @@ class HiveCubit extends Cubit<HiveStates>{
 
   String im = '';
 
-  String myDate = DateTime.now().toString();
+  String myDate = DateFormat.yMMMMd().format(DateTime.now()).toString();
   //Methods
 
   changeContainerColorMethod({required int index}){
-  selectedIndex == index ;
+  selectedIndex = index ;
   emit(ContainerColorChanged());
   }
 
@@ -95,8 +96,8 @@ class HiveCubit extends Cubit<HiveStates>{
 
  Future addTask ({required title, description , startTime ,
     endTime , required date, required Color color,
-    required String taskState,required
- String taskImage}) async {
+    required String taskState,
+  taskImage}) async {
     await tasksRef.add({
       'title' : title,
       'description' : description,
@@ -128,7 +129,8 @@ class HiveCubit extends Cubit<HiveStates>{
           'description': task['description'],
           'color' : task['color'],
           'taskState' : task['taskState'],
-          'date' : task['date']
+          'date' : task['date'],
+          'taskImage' : task[ 'taskImage']
         };
         list.add(mapTask);
       }

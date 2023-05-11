@@ -9,8 +9,9 @@ class MyListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = BlocProvider.of<HiveCubit>(context);
-    return SizedBox(
-      height: MediaQuery.of(context).size.height*0.255,
+    return
+      SizedBox(
+      height: MediaQuery.of(context).size.height*0.24,
       width: MediaQuery.of(context).size.width*0.2,
       child: Padding(
         padding: const EdgeInsets.all(12.0),
@@ -27,8 +28,8 @@ class MyListView extends StatelessWidget {
                   child: Container(
                     clipBehavior: Clip.antiAlias,
                     alignment: Alignment.bottomCenter,
-                    height: MediaQuery.of(context).size.height*0.25,
-                    width: MediaQuery.of(context).size.width*0.5,
+                    height: MediaQuery.of(context).size.height*0.2,
+                    width: MediaQuery.of(context).size.width*0.45,
                     decoration: BoxDecoration(
                         image: DecorationImage(
                             image: AssetImage(cubit.images[index],),
@@ -45,7 +46,7 @@ class MyListView extends StatelessWidget {
                         color: myPrimeColor
                     ),
                       child: Padding(
-                        padding: const EdgeInsets.all(12.0),
+                        padding: const EdgeInsets.all(10.0),
                         child: Text(cubit.text[index],
                           style: const TextStyle(
                               fontSize: 20,
@@ -57,7 +58,7 @@ class MyListView extends StatelessWidget {
                 ),
               );
             },
-            separatorBuilder:(context , index)=> const SizedBox(width: 10,) ,
+            separatorBuilder:(context , index)=> const SizedBox(width: 8,) ,
             itemCount:cubit.images.length ),
       ),
     );

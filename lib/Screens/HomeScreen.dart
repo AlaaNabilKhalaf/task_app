@@ -6,6 +6,7 @@ import 'package:note_app/Screens/Task_Screen.dart';
 import 'package:note_app/Screens/add_task_screen.dart';
 import 'package:note_app/cubits/hive_cubit/hive_cubit.dart';
 import 'package:note_app/cubits/hive_cubit/hive_states.dart';
+import 'package:note_app/widgets/TheDefaultHomeScreen.dart';
 import '../Constants/colors.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,12 +17,18 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
- // bool startAnimated = false ;
+
 
   @override
   Widget build(BuildContext context) {
     final cubit = BlocProvider.of<HiveCubit>(context);
-   // HiveCubit().getTask(date: cubit.myDate);
+   cubit.getTask(date: cubit.myDate);
+    Future.delayed(const Duration(milliseconds: 500),(){
+      cubit.makeAnimationValueTure();
+      Future.delayed(const Duration(milliseconds: 500),(){
+        cubit.changeAnimationValue();
+      });
+    });
     return BlocConsumer<HiveCubit,HiveStates>(
       listener: (context,state){},
       builder: (context , state) {
@@ -90,7 +97,6 @@ class _HomeScreenState extends State<HomeScreen> {
             )
           ],
         ),
-
         body: Column(
           children: [
             Padding(
@@ -105,8 +111,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: Text(DateFormat.yMMMMd().format(DateTime.now()),
                             style:  TextStyle(
-                                fontSize: 30,
-                                color: cubit.isMode? Colors.black : Colors.white,
+                              fontSize: 30,
+                              color: cubit.isMode? Colors.black : Colors.white,
                             ),),
                         ),
                         Padding(
@@ -120,9 +126,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   MaterialButton(onPressed: ()
                   {
-                   setState(() {
-                     cubit.startAnimated = false ;
-                   });
+                    setState(() {
+                      cubit.startAnimated = false ;
+                    });
                     cubit.clearValues();
                     Navigator.push(context, MaterialPageRoute(builder: (context)=> const AddTask()));
                   },
@@ -168,40 +174,21 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: Colors.grey
                   ),
                   onDateChange: (data){
-                  Future.delayed(const Duration(milliseconds: 500),(){
-                cubit.makeAnimationValueTure();
-                  Future.delayed(const Duration(milliseconds: 500),(){
-                    cubit.changeAnimationValue();
-                  });
-                  });
+                    Future.delayed(const Duration(milliseconds: 500),(){
+                      cubit.makeAnimationValueTure();
+                      Future.delayed(const Duration(milliseconds: 500),(){
+                        cubit.changeAnimationValue();
+                      });
+                    });
                     cubit.myDate = DateFormat.yMMMMd().format(data);
                     cubit.getTask(date: cubit.myDate.toString());
                   },),),),
             cubit.tasksData.isEmpty?
-            Expanded(
-              flex: 9,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset('lib/assets/images/—Pngtree—blue mobile phone layout free_4404519.png',
-                    fit: BoxFit.cover,
-                    height: MediaQuery.of(context).size.height*0.25,
-                    width: MediaQuery.of(context).size.width*0.35,),
-                  const Text("You don't have any tasks yet",
-                    style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 19
-                    ),),
-                  const  Text("Add new tasks to make your day productive",
-                    style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 19
-                    ),),
-                ],
-              ),
-            ) :
+
+          const  MyDefaultHomeScreen() :
+
             // ListView
+
             Expanded(
               flex: 9,
               child: Padding(
@@ -217,158 +204,158 @@ class _HomeScreenState extends State<HomeScreen> {
                           curve: Curves.easeInOut,
                           transform: Matrix4.translationValues(
                               cubit.startAnimated ? 0 :
-                          MediaQuery.of(context).size.width*1, 0, 0),
+                              MediaQuery.of(context).size.width*1, 0, 0),
                           duration:  Duration(milliseconds: 300 + (index * 200) ),
                           child: Row(
-                        children: [
-                        Expanded(
-                        flex: 7,
-                          child: GestureDetector(
-                            onTap: (){
-                              setState(() {
-                                cubit.task = cubit.tasksData[index];
-                              });
-                              cubit.clearValues();
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>
-                                const  TaskScreen()));
-                            },
-                            child: SingleChildScrollView(
-                              physics: const BouncingScrollPhysics(),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 15),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(cubit.tasksData[index]['title'],
-                                      style: const TextStyle(
-                                          fontSize: 19,fontWeight: FontWeight.bold,color: Colors.black
-                                      ),),
-
-                                    if(cubit.tasksData[index]['startTime'] == null || cubit.tasksData[index]['endTime'] == null  )
-                                      const SizedBox(height: 10,),
-                                    if(cubit.tasksData[index]['startTime'] != '' || cubit.tasksData[index]['endTime'] != '' )
-                                      Row(
-                                        children: [const Icon(Icons.watch_later_outlined,
-                                          color:  Colors.black ,
-                                          size: 20,),
-                                          Text(' ${cubit.tasksData[index]['startTime'].toString()}',
+                            children: [
+                              Expanded(
+                                flex: 7,
+                                child: GestureDetector(
+                                  onTap: (){
+                                    setState(() {
+                                      cubit.task = cubit.tasksData[index];
+                                    });
+                                    cubit.clearValues();
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>
+                                    const  TaskScreen()));
+                                  },
+                                  child: SingleChildScrollView(
+                                    physics: const BouncingScrollPhysics(),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(cubit.tasksData[index]['title'],
                                             style: const TextStyle(
-                                                color: Colors.black
+                                                fontSize: 19,fontWeight: FontWeight.bold,color: Colors.black
                                             ),),
-                                          const Text(' - ',style: TextStyle(
-                                              color: Colors.black
-                                          ),),
-                                          Text(cubit.tasksData[index]['endTime'].toString(),style:const TextStyle(
+
+                                          if(cubit.tasksData[index]['startTime'] == null || cubit.tasksData[index]['endTime'] == null  )
+                                            const SizedBox(height: 10,),
+                                          if(cubit.tasksData[index]['startTime'] != '' || cubit.tasksData[index]['endTime'] != '' )
+                                            Row(
+                                              children: [const Icon(Icons.watch_later_outlined,
+                                                color:  Colors.black ,
+                                                size: 20,),
+                                                Text(' ${cubit.tasksData[index]['startTime'].toString()}',
+                                                  style: const TextStyle(
+                                                      color: Colors.black
+                                                  ),),
+                                                const Text(' - ',style: TextStyle(
+                                                    color: Colors.black
+                                                ),),
+                                                Text(cubit.tasksData[index]['endTime'].toString(),style:const TextStyle(
+                                                    color: Colors.black
+                                                ),),
+                                              ],
+                                            ),
+
+
+                                          Text(cubit.tasksData[index]['description'],style: const TextStyle(
+                                              fontSize: 18,
                                               color: Colors.black
                                           ),),
                                         ],
                                       ),
-
-
-                                    Text(cubit.tasksData[index]['description'],style: const TextStyle(
-                                        fontSize: 18,
-                                        color: Colors.black
-                                    ),),
-                                  ],
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
+                              const SizedBox(height: 85,width: 15,
+                                child: VerticalDivider(width: 1,color: Colors.white,),),
+                              GestureDetector(
+                                onTap: (){
+                                  showModalBottomSheet(
+                                      elevation: 30,
+                                      context: (context), builder: (context){
+                                    return Padding(
+                                      padding: const EdgeInsets.all(40.0),
+                                      child: SizedBox(
+                                        height: MediaQuery.of(context).size.height*0.25,
+                                        child: Column(
+                                          children: [
+                                            MaterialButton(onPressed: (){
+                                              setState(() {
+                                              cubit.tasksData[index]['taskState'] = 'Completed';
+                                                Navigator.pop(context);
+                                                cubit.makeAnimationValueTure() ;
+                                              });
+                                            },
+                                              color: myPrimeColor,
+                                              elevation: 8,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(12)),
+                                              minWidth:double.infinity,
+                                              height: MediaQuery.of(context).size.height*0.06,
+                                              child: const Text('Complete Task',
+                                                style: TextStyle(color: Colors.white,
+                                                    fontSize: 20),),
+                                            ),
+                                            const  SizedBox(height: 10,),
+                                            MaterialButton(onPressed: (){
+                                              cubit.deleteTask(taskKey:
+                                              cubit.tasksData[index]['key']);
+                                              cubit.getTask(date: cubit.myDate);
+                                              Navigator.pop(context);
+                                              cubit.startAnimated = true ;
+                                            },
+                                              color: Colors.redAccent,
+                                              elevation: 8,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(12)),
+                                              minWidth:double.infinity,
+                                              height: MediaQuery.of(context).size.height*0.06,
+                                              child: const Text('Delete Task',
+                                                style: TextStyle(color: Colors.white,
+                                                    fontSize: 20),),
+                                            ),
+                                            const  SizedBox(height: 35,),
+
+                                            GestureDetector(
+                                              onTap: (){
+                                                setState(() {
+                                                  Navigator.pop(context);
+                                                  cubit.startAnimated = true ;
+                                                });
+                                              },
+                                              child: Container(
+                                                alignment: Alignment.center,
+                                                width: double.infinity,
+                                                height: MediaQuery.of(context).size.height*0.06,
+                                                decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(15),
+                                                    border: Border.all(
+                                                        width: 1
+                                                    )
+                                                ),
+                                                child: Text('Close',
+                                                  style: TextStyle(color: myPrimeColor,
+                                                      fontSize: 30),),
+                                              ),
+                                            )
+
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  });
+                                },
+                                child: SizedBox(
+                                  width: 35,
+                                  child: RotatedBox(
+                                    quarterTurns: 3,
+                                    child: Text(cubit.tasksData[index]['taskState'].toString(),
+                                      style: const TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.black
+                                      ),),
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
-                        ),
-                      const SizedBox(height: 85,width: 15,
-                      child: VerticalDivider(width: 1,color: Colors.white,),),
-                      GestureDetector(
-                      onTap: (){
-                      showModalBottomSheet(
-                      elevation: 30,
-                      context: (context), builder: (context){
-                      return Padding(
-                      padding: const EdgeInsets.all(40.0),
-                      child: SizedBox(
-                      height: MediaQuery.of(context).size.height*0.25,
-                      child: Column(
-                      children: [
-                      MaterialButton(onPressed: (){
-                      cubit.tasksData[index]['taskState'] = 'Completed';
-                      setState(() {
-                      Navigator.pop(context);
-                      cubit.startAnimated = true ;
-                      });
-                      },
-                      color: myPrimeColor,
-                      elevation: 8,
-                      shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
-                      minWidth:double.infinity,
-                      height: MediaQuery.of(context).size.height*0.06,
-                      child: const Text('Complete Task',
-                      style: TextStyle(color: Colors.white,
-                      fontSize: 20),),
-                      ),
-                      const  SizedBox(height: 10,),
-                      MaterialButton(onPressed: (){
-                      cubit.deleteTask(taskKey:
-                      cubit.tasksData[index]['key']);
-                      cubit.getTask(date: cubit.myDate);
-                      Navigator.pop(context);
-                      cubit.startAnimated = true ;
-                      },
-                      color: Colors.redAccent,
-                      elevation: 8,
-                      shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
-                      minWidth:double.infinity,
-                      height: MediaQuery.of(context).size.height*0.06,
-                      child: const Text('Delete Task',
-                      style: TextStyle(color: Colors.white,
-                      fontSize: 20),),
-                      ),
-                      const  SizedBox(height: 35,),
-
-                      GestureDetector(
-                        onTap: (){
-                          setState(() {
-                            Navigator.pop(context);
-                            cubit.startAnimated = true ;
-                          });
-                        },
-                        child: Container(
-                        alignment: Alignment.center,
-                        width: double.infinity,
-                        height: MediaQuery.of(context).size.height*0.06,
-                        decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all(
-                        width: 1
-                        )
-                        ),
-                        child: Text('Close',
-                        style: TextStyle(color: myPrimeColor,
-                        fontSize: 30),),
-                        ),
-                      )
-
-                      ],
-                      ),
-                      ),
-                      );
-                      });
-                      },
-                      child: SizedBox(
-                      width: 35,
-                      child: RotatedBox(
-                      quarterTurns: 3,
-                      child: Text(cubit.tasksData[index]['taskState'].toString(),
-                      style: const TextStyle(
-                      fontSize: 18,
-                      color: Colors.black
-                      ),),
-                      ),
-                      ),
-                      )
-                      ],
-                      ),
                         );
                     },
                     separatorBuilder: (context ,index){
@@ -378,7 +365,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                     itemCount:cubit.tasksData.length),
               ),
-            )
+            ),
 
           ],
         ),

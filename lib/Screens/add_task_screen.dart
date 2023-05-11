@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:note_app/cubits/hive_cubit/hive_states.dart';
-import 'package:note_app/listView.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:note_app/widgets/CreateTaskTap.dart';
 import '../Constants/colors.dart';
 import '../cubits/hive_cubit/hive_cubit.dart';
 
@@ -27,13 +26,13 @@ class _AddTaskState extends State<AddTask> {
           appBar: AppBar(
             leading: IconButton(icon : Icon(Icons.arrow_back_ios,color: myPrimeColor,),
               onPressed: (){
-                cubit.getTask(date: DateTime.now().toString());
                 Navigator.pop(context);
-                Future.delayed(const Duration(milliseconds: 500),(){
-                   cubit.makeAnimationValueTure();
-                    Future.delayed(const Duration(milliseconds: 500),(){
-                      cubit.changeAnimationValue();
-                    });
+                cubit.getTask(date: cubit.myDate);
+                Future.delayed(const Duration(milliseconds: 100),(){
+                  cubit.makeAnimationValueTure();
+                  Future.delayed(const Duration(milliseconds: 400),(){
+                    cubit.changeAnimationValue();
+                  });
                 });
               },
               color: myPrimeColor, ),
@@ -41,7 +40,7 @@ class _AddTaskState extends State<AddTask> {
               IconButton(
                 onPressed: (){
                   cubit.changeMode();
-                },
+                  },
                 icon: Icon(cubit.isMode? Icons.nightlight_round : Icons.sunny,
                     color:  myPrimeColor ),),
             ],
@@ -252,7 +251,164 @@ class _AddTaskState extends State<AddTask> {
                     ],
                   ),
 
-                  const MyListView(),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height*0.24,
+                    width: MediaQuery.of(context).size.width*0.2,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context , index){
+                            return GestureDetector(
+                              onTap: (){
+                             setState(() {
+                               cubit.changeContainerColorMethod(index: index);
+                               cubit.insertImageTask(taskImage: cubit.images[index]);
+                             });
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  clipBehavior: Clip.antiAlias,
+                                  alignment: Alignment.bottomCenter,
+                                  height: MediaQuery.of(context).size.height*0.2,
+                                  width: MediaQuery.of(context).size.width*0.45,
+                                  decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: AssetImage(cubit.images[index],),
+                                        fit: BoxFit.cover,
+                                      ),
+                                      borderRadius: BorderRadius.circular(26),
+                                      border: Border.all(
+                                        width: 5,
+                                        color: cubit.selectedIndex == index ? myPrimeColor : cubit.isMode ? Colors.white: Colors.black,
+                                      )
+                                  ),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: myPrimeColor
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Text(cubit.text[index],
+                                        style: const TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.black
+                                        ),),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                          separatorBuilder:(context , index)=> const SizedBox(width: 8,) ,
+                          itemCount:cubit.images.length ),
+                    ),
+                  ),
+
+                   Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            children: [
+                              Text('Colors',style: TextStyle(
+
+                                color:  cubit.isMode? Colors.black : Colors.white,
+
+                                fontSize: 30,)
+
+                                ,),
+
+                              Row(
+
+                                children: [
+                                  GestureDetector(
+                                    onDoubleTap: (){
+                                      cubit.containerColor = myPrimeColor;
+                                      setState(() {
+                                      });
+                                    },
+                                    onTap: (){
+                                      setState(() {
+                                      });
+                                      cubit.containerColor = const Color(0xffE5DCF1);
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: CircleAvatar(
+                                        backgroundColor: const Color(0xffE5DCF1),
+                                        radius: 18,
+                                        child: Icon(Icons.check,size: 33,
+                                          color: cubit.containerColor == const Color(0xffE5DCF1) ? Colors.white: const Color(0xffE5DCF1) ,),
+                                      ),
+                                    ),
+                                  ),
+
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: GestureDetector(
+                                      onDoubleTap: (){
+                                        cubit.containerColor = myPrimeColor;
+                                        setState(() {
+                                        });
+                                      },
+                                      onTap: (){
+                                        setState(() {});
+                                        cubit.containerColor = const Color(0xffCFCAFE);
+                                      },
+                                      child: CircleAvatar(
+                                        backgroundColor: const Color(0xffCFCAFE),
+                                        radius: 18,
+                                        child: Icon(Icons.check,size: 33,
+                                          color: cubit.containerColor == const Color(0xffCFCAFE)? Colors.white: const Color(0xffCFCAFE) ,),
+
+                                      ),
+                                    ),
+                                  ),
+
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: GestureDetector(
+                                      onDoubleTap: (){
+                                        cubit.containerColor = myPrimeColor;
+                                        setState(() {
+                                        });
+                                      },
+                                      onTap: (){
+                                        setState(() {
+                                        });
+                                        cubit.containerColor = const Color(0xffab98c7);
+                                      },
+                                      child: CircleAvatar(
+                                        backgroundColor: const Color(0xffab98c7),
+                                        radius: 18,
+                                        child: Icon(Icons.check,size: 33,
+                                          color: cubit.containerColor == const Color(0xffab98c7) ? Colors.white: const Color(0xffab98c7) ,),
+
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+
+                          ),
+
+                      const  MyTap(),
+                        ],
+                      ),
+                    ],
+                  )
+              ),
+            ),
+
+          backgroundColor: cubit.isMode? Colors.white : Colors.black,
+        );
+      },
+    );
+  }
+}
+
 //Reminder
 //                   Column(
 //                     mainAxisAlignment: MainAxisAlignment.start,
@@ -362,181 +518,3 @@ class _AddTaskState extends State<AddTask> {
 //                         ),
 //                       ),
 //Color
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-
-                            children: [
-
-                              Text('Colors',style: TextStyle(
-
-                                color:  cubit.isMode? Colors.black : Colors.white,
-
-                                fontSize: 30,)
-
-                                ,),
-
-                              Row(
-
-                                children: [
-                                  GestureDetector(
-                                    onDoubleTap: (){
-                                      cubit.containerColor = myPrimeColor;
-                                      setState(() {
-
-                                      });
-                                    },
-                                    onTap: (){
-                                      setState(() {
-                                      });
-                                      cubit.containerColor = const Color(0xffE5DCF1);
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: CircleAvatar(
-                                        backgroundColor: const Color(0xffE5DCF1),
-                                        radius: 18,
-                                        child: Icon(Icons.check,size: 33,
-                                          color: cubit.containerColor == const Color(0xffE5DCF1) ? Colors.grey: const Color(0xffE5DCF1) ,),
-                                      ),
-                                    ),
-                                  ),
-
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: GestureDetector(
-                                      onDoubleTap: (){
-                                        cubit.containerColor = myPrimeColor;
-                                        setState(() {
-                                        });
-                                      },
-                                      onTap: (){
-                                        setState(() {});
-                                        cubit.containerColor = const Color(0xffCFCAFE);
-                                      },
-                                      child: CircleAvatar(
-                                        backgroundColor: const Color(0xffCFCAFE),
-                                        radius: 18,
-                                        child: Icon(Icons.check,size: 33,
-                                          color: cubit.containerColor == const Color(0xffCFCAFE)? Colors.grey: const Color(0xffCFCAFE) ,),
-
-                                      ),
-                                    ),
-                                  ),
-
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: GestureDetector(
-                                      onDoubleTap: (){
-                                        cubit.containerColor = myPrimeColor;
-                                        setState(() {
-                                        });
-                                      },
-                                      onTap: (){
-                                        setState(() {
-                                        });
-                                        cubit.containerColor = const Color(0xffab98c7);
-                                      },
-                                      child: CircleAvatar(
-                                        backgroundColor: const Color(0xffab98c7),
-                                        radius: 18,
-                                        child: Icon(Icons.check,size: 33,
-                                          color: cubit.containerColor == const Color(0xffab98c7) ? Colors.white: const Color(0xffab98c7) ,),
-
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              )
-                            ],
-
-                          ),
-                          MaterialButton(onPressed: () async {
-                            //   Alert(context: context, title: "FLUTTER", desc: "Flutter is awesome.").show();
-                            cubit.makeAnimationValueTure();
-                            if(cubit.title.text == ' ' || cubit.title.text.isEmpty ){
-
-                                Alert(
-                                  context: context,
-                                  type: AlertType.warning,
-                                  title: "WAIT",
-                                  desc: "You Need To Enter Your Task Title First",
-                                  buttons: [
-                                    DialogButton(
-                                      color: myPrimeColor,
-                                      onPressed: () => Navigator.pop(context),
-                                      width: 125,
-                                      child: const Text(
-                                        "GOT IT",
-                                        style: TextStyle(color: Colors.white, fontSize: 25),
-                                      ),
-                                    )
-                                  ],
-                                ).show();
-
-                            }
-                            if(cubit.date.text.isEmpty){
-                              Alert(
-                              context: context,
-                              type: AlertType.warning,
-                              title: "WAIT",
-                              desc: "You Need To Enter Your Task Date First",
-                              buttons: [
-                                DialogButton(
-                                  color: myPrimeColor,
-                                  onPressed: () => Navigator.pop(context),
-                                  width: 125,
-                                  child: const Text(
-                                    "GOT IT",
-                                    style: TextStyle(color: Colors.white, fontSize: 25),
-                                  ),
-                                )
-                              ],
-                            ).show();}
-
-                            else{
-                              Navigator.pop(context);
-                           await cubit.addTask(
-                             taskImage: cubit.imageOfTheTask,
-                             title: cubit.title.text,
-                              taskState: 'TODO',
-                              color: cubit.containerColor,
-                              description: cubit.description.text,
-                              endTime: cubit.endTime.text,
-                              startTime: cubit.startTime.text,
-                              date : cubit.date.text,
-                            );
-                           }
-                            Future.delayed(const Duration(milliseconds: 500),(){
-                              setState(() {
-                                cubit.startAnimated = true;
-                                Future.delayed(const Duration(milliseconds: 500),(){
-                                  cubit.startAnimated = ! cubit.startAnimated ;
-                                });
-                              });
-                            });
-                          },
-                            color: myPrimeColor,
-                            elevation: 8,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12)),
-                            minWidth:MediaQuery.of(context).size.width*.35,
-                            height: MediaQuery.of(context).size.height*0.06,
-                            child: const Text('Create Task',
-                              style: TextStyle(color: Colors.white,
-                                  fontSize: 20),),)
-                        ],
-                      ),
-                    ],
-                  )
-              ),
-            ),
-
-          backgroundColor: cubit.isMode? Colors.white : Colors.black,
-        );
-      },
-    );
-  }
-}
-
