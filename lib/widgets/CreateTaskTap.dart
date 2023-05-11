@@ -15,8 +15,9 @@ class _MyTapState extends State<MyTap> {
   @override
   Widget build(BuildContext context) {
     final cubit = BlocProvider.of<HiveCubit>(context);
-
-    return MaterialButton(onPressed: () async {
+    return
+      MaterialButton(
+        onPressed: () async {
       //   Alert(context: context, title: "FLUTTER", desc: "Flutter is awesome.").show();
       cubit.makeAnimationValueTure();
       if(cubit.date.text.isEmpty){
@@ -47,14 +48,15 @@ class _MyTapState extends State<MyTap> {
       else{
         Navigator.pop(context);
         await cubit.addTask(
+          taskState: 'TODO',
           taskImage: cubit.imageOfTheTask,
           title: cubit.title.text,
-          taskState: 'TODO',
           color: cubit.containerColor,
           description: cubit.description.text,
           endTime: cubit.endTime.text,
           startTime: cubit.startTime.text,
           date : cubit.date.text,
+          containerText: cubit.containerText
         );
       }
       Future.delayed(const Duration(milliseconds: 500),(){

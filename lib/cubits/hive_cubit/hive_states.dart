@@ -18,5 +18,9 @@ class Loading extends HiveStates {}
 class StartGettingData extends HiveStates {}
 class TaskImageInserted extends HiveStates {}
 class TaskImageBoolChanged extends HiveStates {}
+class TheTextChanged extends HiveStates {}
+class TextIndexReturned extends HiveStates {}
+class ContainerTextInserted extends HiveStates {}
+
 
 

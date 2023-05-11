@@ -71,19 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
                    });
                });
         },
-              // async{
-              //   try {
-              //     if(cubit.getImage().isNotEmpty){
-              //       cubit.getImage();
-              //     }else{
-              //       await cubit.addImage(
-              //           image: cubit.pickImage());
-              //       cubit.getImage();
-              //     }
-              //   }catch(e){
-              //     debugPrint('the error is $e');
-              //   }
-              // },
+
 
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -266,6 +254,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ),
                               ),
+                              Column(
+                                children: [
+                                  Text(cubit.tasksData[index]['containerText'],style: TextStyle(
+                                    color: Colors.black
+                                  ),),
+                                  SizedBox(height: 50)
+                                ],
+                              ),
+
                               const SizedBox(height: 85,width: 15,
                                 child: VerticalDivider(width: 1,color: Colors.white,),),
                               GestureDetector(
@@ -279,12 +276,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                         height: MediaQuery.of(context).size.height*0.25,
                                         child: Column(
                                           children: [
-                                            MaterialButton(onPressed: (){
-                                              setState(() {
-                                              cubit.tasksData[index]['taskState'] = 'Completed';
+                                            MaterialButton(
+                                              onPressed: (){
+                                                //Error is here
+                                                cubit.tasksData[index]['taskState'] = 'Complete';
+
+                                               // cubit.changeTheTextBool(index: index);
+                                               setState(()  {
+                                                 print(cubit.tasksData[index]['taskState']);
                                                 Navigator.pop(context);
-                                                cubit.makeAnimationValueTure() ;
-                                              });
+                                                cubit.startAnimated = true ;
+                                               });
+                                         //   cubit.getTask(date: cubit.myDate);
                                             },
                                               color: myPrimeColor,
                                               elevation: 8,
@@ -292,12 +295,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   borderRadius: BorderRadius.circular(12)),
                                               minWidth:double.infinity,
                                               height: MediaQuery.of(context).size.height*0.06,
-                                              child: const Text('Complete Task',
+                                              child:  Text(cubit.theTextBool ? 'Complete Task' : 'TODO Task',
                                                 style: TextStyle(color: Colors.white,
                                                     fontSize: 20),),
                                             ),
                                             const  SizedBox(height: 10,),
-                                            MaterialButton(onPressed: (){
+
+                                            MaterialButton(
+                                              onPressed: (){
                                               cubit.deleteTask(taskKey:
                                               cubit.tasksData[index]['key']);
                                               cubit.getTask(date: cubit.myDate);
@@ -321,6 +326,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 setState(() {
                                                   Navigator.pop(context);
                                                   cubit.startAnimated = true ;
+                                                  print(cubit.tasksData[index]['taskState']);
                                                 });
                                               },
                                               child: Container(
@@ -345,13 +351,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                     );
                                   });
                                 },
+
                                 child: SizedBox(
                                   width: 35,
                                   child: RotatedBox(
                                     quarterTurns: 3,
-                                    child: Text(cubit.tasksData[index]['taskState'].toString(),
+                                    child: Text(
+                                      cubit.tasksData[index]['taskState'].toString(),
                                       style: const TextStyle(
-                                          fontSize: 18,
+                                          fontSize: 17,
                                           color: Colors.black
                                       ),),
                                   ),
@@ -378,3 +386,16 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+// async{
+//   try {
+//     if(cubit.getImage().isNotEmpty){
+//       cubit.getImage();
+//     }else{
+//       await cubit.addImage(
+//           image: cubit.pickImage());
+//       cubit.getImage();
+//     }
+//   }catch(e){
+//     debugPrint('the error is $e');
+//   }
+// },

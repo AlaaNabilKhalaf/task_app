@@ -76,70 +76,76 @@ class TaskScreen extends StatelessWidget {
                       height: MediaQuery.of(context).size.height*0.65,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        color: myPrimeColor,
+                        color: Color(cubit.task['color']??5555),
                       ),
                       child: SingleChildScrollView(
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 25.0,
-                          vertical: 10),
+                          padding: const EdgeInsets.symmetric(horizontal: 18.0,
+                          vertical: 15),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 10.0,),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  //title
-                                  children:  [
-                                  const  Row(
-                                      children:  [
-                                        Icon(Icons.title,color: CupertinoColors.white,size: 33,),
-                                        SizedBox(width: 15,),
-                                         Text('Title',style: TextStyle(color: Colors.white,fontSize: 40),),
-                                      ],
-                                    ),
-                                   if(cubit.task['taskImage'] == null)
-                                     SizedBox(width: MediaQuery.of(context).size.width*0.3,
-                                       height: MediaQuery.of(context).size.height*0.15,),
-                                   if(cubit.task['taskImage'] != null )
-                                      Row(
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                //title
+                                children:  [
+                                  Row(
+                                    children:  [
+                                      Column(
                                         children: [
-                                          SizedBox(width: MediaQuery.of(context).size.width*0.3,
-                                            height: MediaQuery.of(context).size.height*0.15,
-                                            child: Image.asset('${cubit.task['taskImage']}',
-                                              width: MediaQuery.of(context).size.width*0.3,
-                                              height: MediaQuery.of(context).size.height*0.15,),
+                                          Row(
+                                            children: [
+                                              Icon(Icons.title,color: CupertinoColors.white,size: 30,),
+                                              SizedBox(width: 15,),
+                                              Text('Title',style: TextStyle(color: Colors.black,fontSize: 33),),
+                                            ],
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(0.0),
+                                            child: Text(cubit.task['title'].toString(), style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 26
+                                            ),),
                                           ),
                                         ],
                                       ),
-                                  ],
-                                ),
+
+                                    ],
+                                  ),
+                                 if(cubit.task['taskImage'] == null)
+                                   SizedBox(width: MediaQuery.of(context).size.width*0.1,
+                                     height: MediaQuery.of(context).size.height*0.1,),
+                                 if(cubit.task['taskImage'] != null )
+                                    Row(
+                                      children: [
+                                        SizedBox(width: MediaQuery.of(context).size.width*0.3,
+                                          height: MediaQuery.of(context).size.height*0.15,
+                                          child: Image.asset('${cubit.task['taskImage']}',
+                                            width: MediaQuery.of(context).size.width*0.3,
+                                            height: MediaQuery.of(context).size.height*0.15,),
+                                        ),
+                                      ],
+                                    ),
+                                ],
                               ),
 
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(cubit.task['title'].toString(), style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 28
-                                ),),
-                              ),
                               //description
                               const Padding(
                                 padding: EdgeInsets.all(10.0),
                                 child: Row(
                                   children:  [
-                                    Icon(Icons.file_copy,color: CupertinoColors.white,size: 33,),
+                                    Icon(Icons.file_copy,color: CupertinoColors.white,size: 30,),
                                     SizedBox(width: 15,),
-                                    Text('Description',style: TextStyle(color: Colors.white,fontSize: 40),),
+                                    Text('Description',style: TextStyle(color: Colors.black,fontSize: 33),),
                                   ],
                                 ),
                               ),
                              Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child:  Text(cubit.task['description'].toString(),  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 30
+                                    color: Colors.black,
+                                    fontSize: 25
                                 ),),
                               ),
                               //date
@@ -147,17 +153,17 @@ class TaskScreen extends StatelessWidget {
                                 padding:  EdgeInsets.all(10.0),
                                 child: Row(
                                   children:[
-                                    Icon(Icons.calendar_month_sharp,color: CupertinoColors.white,size: 33,),
+                                    Icon(Icons.calendar_month_sharp,color: CupertinoColors.white,size: 30,),
                                     SizedBox(width: 15,),
-                                    Text('Date',style: TextStyle(color: Colors.white,fontSize: 40),),
+                                    Text('Date',style: TextStyle(color: Colors.black,fontSize: 33),),
                                   ],
                                 ),
                               ),
                              Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child:  Text(cubit.task['date'].toString(),  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 30
+                                    color: Colors.black,
+                                    fontSize: 25
                                 ),),
                               ),
                               //time
@@ -168,9 +174,9 @@ class TaskScreen extends StatelessWidget {
                                 padding: EdgeInsets.all(10.0),
                                 child: Row(
                                   children: [
-                                    Icon(Icons.watch_later_outlined,color: CupertinoColors.white,size: 33,),
+                                    Icon(Icons.watch_later_outlined,color: CupertinoColors.white,size: 30,),
                                     SizedBox(width: 15,),
-                                    Text('Time',style: TextStyle(color: Colors.white,fontSize: 40),),
+                                    Text('Time',style: TextStyle(color: Colors.black,fontSize: 33),),
                                   ],
                                 ),
                               ),
@@ -181,8 +187,8 @@ class TaskScreen extends StatelessWidget {
                                 padding:const EdgeInsets.all(8.0),
                                 child:  Text( '${cubit.task['startTime']} - ${cubit.task['endTime']}'
                                 ,  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 30
+                                    color: Colors.black,
+                                    fontSize: 25
                                 ),),
                               ),
                             ],

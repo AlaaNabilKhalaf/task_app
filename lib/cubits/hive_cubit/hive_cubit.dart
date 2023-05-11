@@ -16,11 +16,11 @@ class HiveCubit extends Cubit<HiveStates> {
 
   //Variables
 
-  // bool taskImageBool = false ;
-
   String? imageOfTheTask;
 
   bool startAnimated = false;
+
+  bool theTextBool = true ;
 
   int selectedIndex = 5;
 
@@ -28,7 +28,9 @@ class HiveCubit extends Cubit<HiveStates> {
 
   dynamic task;
 
-  List<String> text = [
+  int textIndex = 5 ;
+
+  List<String> texts = [
     'Quality Time',
     'Relaxing',
     'Studying',
@@ -43,9 +45,9 @@ class HiveCubit extends Cubit<HiveStates> {
 
   Color containerColor = myPrimeColor;
 
-  String ? dropdownValue;
-
-  String ? repeatedValue;
+  // String ? dropdownValue;
+  //
+  // String ? repeatedValue;
 
   TextEditingController title = TextEditingController();
 
@@ -59,7 +61,7 @@ class HiveCubit extends Cubit<HiveStates> {
 
   bool isMode = true;
 
-  String cornerText = 'TODO';
+  String containerText = ' jgdfjkdjajd' ;
 
   File? image;
 
@@ -75,11 +77,20 @@ class HiveCubit extends Cubit<HiveStates> {
 
   //Methods
 
+ void getTextIndex({required index}){
+    textIndex = index ;
+    emit(TextIndexReturned());
+  }
+
   changeContainerColorMethod({required int index}) {
     selectedIndex = index;
     emit(ContainerColorChanged());
   }
 
+  void changeTheText ({ required int index}){
+    tasksData[index]['taskState'] = 'Complete';
+    emit(TheTextChanged());
+  }
   void changeMode() {
     isMode = !isMode;
     emit(ModeChanged());
@@ -91,15 +102,11 @@ class HiveCubit extends Cubit<HiveStates> {
     emit(TaskDeleted());
   }
 
-// changeTaskImageBool(){
-//     taskImageBool = true ;
-//     emit(TaskImageBoolChanged());
-// }
-
-  Future addTask({required title, description, startTime,
-    endTime, required date, required Color color,
+  Future addTask({ title, description, startTime,
+    endTime, date, required Color color,
     required String taskState,
-    taskImage}) async {
+    taskImage, required String containerText
+  }) async {
     await tasksRef.add({
       'title': title,
       'description': description,
@@ -108,7 +115,8 @@ class HiveCubit extends Cubit<HiveStates> {
       'date': date,
       'color': color.value,
       'taskState': taskState,
-      'taskImage': taskImage
+      'taskImage': taskImage,
+      'containerText' : containerText,
     });
     emit(TaskAdded());
     getTask(date: myDate);
@@ -131,7 +139,9 @@ class HiveCubit extends Cubit<HiveStates> {
           'color': task['color'],
           'taskState': task['taskState'],
           'date': task['date'],
-          'taskImage': task[ 'taskImage']
+          'taskImage': task[ 'taskImage'],
+          'containerText' : task['containerText'],
+
         };
         list.add(mapTask);
       }
@@ -218,6 +228,10 @@ class HiveCubit extends Cubit<HiveStates> {
   insertImageTask({required String taskImage}) {
     imageOfTheTask = taskImage;
     emit(TaskImageInserted());
+  }
+  insertContainerText({required String myContainerText}) {
+    containerText = myContainerText;
+    emit(ContainerTextInserted());
   }
 
   void snackBar(context, text) {
