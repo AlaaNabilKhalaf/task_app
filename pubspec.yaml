@@ -39,12 +39,10 @@ dependencies:
   hive_flutter:
   intl:
   date_picker_timeline:
-  rflutter_alert:
   image_picker:
   bloc:
   flutter_bloc:
-  flutter_local_notifications:
-
+  rflutter_alert:
 
 
 dev_dependencies:

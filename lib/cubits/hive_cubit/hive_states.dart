@@ -16,5 +16,7 @@ class MakeAnimationValueFalse extends HiveStates {}
 class InitialedTheTask extends HiveStates {}
 class Loading extends HiveStates {}
 class StartGettingData extends HiveStates {}
+class TaskImageInserted extends HiveStates {}
+class TaskImageBoolChanged extends HiveStates {}
 
 

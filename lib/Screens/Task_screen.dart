@@ -30,7 +30,7 @@ class TaskScreen extends StatelessWidget {
                   const Text('Hello, Beauty',style: TextStyle(
                     fontSize: 40,
                   ),),
-                  const  Text('Remember To Take It Easy ',style: TextStyle(
+                  const  Text('Remember To Enjoy Yourself Too ',style: TextStyle(
                       color: Colors.grey,
                       fontSize: 20
                   ),),
@@ -50,14 +50,18 @@ class TaskScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              const Padding(
-                                padding: EdgeInsets.all(10.0),
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
                                 child: Row(
                                   //title
                                   children:  [
-                                    Icon(Icons.title,color: CupertinoColors.white,size: 33,),
-                                    SizedBox(width: 15,),
-                                    Text('Title',style: TextStyle(color: Colors.white,fontSize: 40),),
+                                   const Icon(Icons.title,color: CupertinoColors.white,size: 33,),
+                                  const  SizedBox(width: 15,),
+                                    const Text('Title',style: TextStyle(color: Colors.white,fontSize: 40),),
+                                    if(cubit.task['taskImage'] != '')
+                                      Image.asset('${cubit.task['taskImage']}',
+                                        width: MediaQuery.of(context).size.width*0.3,
+                                        height: MediaQuery.of(context).size.height*0.3,),
                                   ],
                                 ),
                               ),

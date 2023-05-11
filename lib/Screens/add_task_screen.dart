@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:note_app/cubits/hive_cubit/hive_states.dart';
+import 'package:note_app/listView.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import '../Constants/colors.dart';
 import '../cubits/hive_cubit/hive_cubit.dart';
@@ -22,7 +23,6 @@ class _AddTaskState extends State<AddTask> {
       listener: (context, state ){},
       builder: (context, state ){
         final cubit = BlocProvider.of<HiveCubit>(context);
-
         return Scaffold(
           appBar: AppBar(
             leading: IconButton(icon : Icon(Icons.arrow_back_ios,color: myPrimeColor,),
@@ -252,6 +252,7 @@ class _AddTaskState extends State<AddTask> {
                     ],
                   ),
 
+                  const MyListView(),
 //Reminder
 //                   Column(
 //                     mainAxisAlignment: MainAxisAlignment.start,
@@ -496,7 +497,9 @@ class _AddTaskState extends State<AddTask> {
 
                             else{
                               Navigator.pop(context);
-                           await cubit.addTask(title: cubit.title.text,
+                           await cubit.addTask(
+                             taskImage: cubit.imageOfTheTask,
+                             title: cubit.title.text,
                               taskState: 'TODO',
                               color: cubit.containerColor,
                               description: cubit.description.text,
@@ -525,10 +528,8 @@ class _AddTaskState extends State<AddTask> {
                                   fontSize: 20),),)
                         ],
                       ),
-
                     ],
                   )
-
               ),
             ),
 

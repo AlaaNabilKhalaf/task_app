@@ -15,15 +15,31 @@ class HiveCubit extends Cubit<HiveStates>{
 
   //Variables
 
-  bool startAnimated = false ;
-bool changeContainerColor = false ;
-  dynamic task ;
-List<String> images = [
+ // bool taskImageBool = false ;
+
+  String imageOfTheTask = '';
+
+   bool startAnimated = false ;
+
+ int selectedIndex = 5 ;
+
+   //bool changeContainerColor = false ;
+
+   dynamic task ;
+
+   List<String> text = [
+     'Quality Time',
+     'Relaxing',
+     'Studying',
+     'Working' ];
+
+   List<String> images = [
   'lib/assets/images/family.png',
   'lib/assets/images/Lovepik_com-401148060-relaxing-summer-vacation.png',
   'lib/assets/images/studying.png',
   'lib/assets/images/—Pngtree—modern flat design concept of_5332905.png',
 ] ;
+
   Color containerColor = myPrimeColor;
 
   String ? dropdownValue ;
@@ -42,12 +58,6 @@ List<String> images = [
 
   bool isMode = true;
 
-
- late Color imageOne ;
- late Color imageTwo ;
- late Color imageThree ;
-  late Color imageFour ;
-
   String cornerText = 'TODO';
 
   File? image ;
@@ -63,42 +73,10 @@ List<String> images = [
   String myDate = DateTime.now().toString();
   //Methods
 
-//
-  changeContainerColorMethod ({required index}){
-if(index == 0)
-   { Color imageOne = myPrimeColor;
-   Color imageTwo = isMode ? Colors.white: Colors.black;
-   Color imageThree = isMode ? Colors.white: Colors.black;
-   Color imageFour = isMode ? Colors.white: Colors.black;}
-
-if(index == 1)
-{ Color imageOne = isMode ? Colors.white: Colors.black;
-Color imageTwo = myPrimeColor;
-Color imageThree = isMode ? Colors.white: Colors.black;
-Color imageFour = isMode ? Colors.white: Colors.black;}
-if(index == 2)
-{ Color imageOne = isMode ? Colors.white: Colors.black;
-Color imageTwo = isMode ? Colors.white: Colors.black;
-Color imageThree = myPrimeColor;
-Color imageFour = isMode ? Colors.white: Colors.black;
-
-}
-if(index == 3)
-{ Color imageOne = isMode ? Colors.white: Colors.black;
-Color imageTwo = isMode ? Colors.white: Colors.black;
-Color imageThree = isMode ? Colors.white: Colors.black;
-Color imageFour = myPrimeColor;
-}
-if(index == null ){
-  Color imageOne = isMode ? Colors.white: Colors.black;
-  Color imageTwo = isMode ? Colors.white: Colors.black;
-  Color imageThree = isMode ? Colors.white: Colors.black;
-  Color imageFour = isMode ? Colors.white: Colors.black;
-}
-
+  changeContainerColorMethod({required int index}){
+  selectedIndex == index ;
   emit(ContainerColorChanged());
-}
-
+  }
 
   void changeMode(){
     isMode = !isMode;
@@ -110,11 +88,15 @@ if(index == null ){
     tasksRef.delete(taskKey);
     emit(TaskDeleted());
   }
-
+// changeTaskImageBool(){
+//     taskImageBool = true ;
+//     emit(TaskImageBoolChanged());
+// }
 
  Future addTask ({required title, description , startTime ,
     endTime , required date, required Color color,
-    required String taskState}) async {
+    required String taskState,required
+ String taskImage}) async {
     await tasksRef.add({
       'title' : title,
       'description' : description,
@@ -122,7 +104,8 @@ if(index == null ){
       'endTime' : endTime,
       'date' : date,
       'color' : color.value,
-      'taskState' : taskState
+      'taskState' : taskState,
+      'taskImage' : taskImage
     });
     emit(TaskAdded());
    getTask(date: myDate);
@@ -231,5 +214,9 @@ emit(ImagePathReturned());
 
 }
 
+insertImageTask({required String taskImage}){
+    imageOfTheTask = taskImage ;
+    emit(TaskImageInserted());
+}
 
 }
