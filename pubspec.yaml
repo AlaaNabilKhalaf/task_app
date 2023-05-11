@@ -45,6 +45,7 @@ dependencies:
   rflutter_alert:
   flutter_launcher_icons: ^0.13.1
   animated_text_kit:
+  connectivity_plus: ^4.0.1
 
 
 dev_dependencies:

@@ -21,9 +21,10 @@ class MyDefaultHomeScreen extends StatelessWidget {
                 fontSize: 19
             ),),
           const  Text("Add new tasks to make your day productive",
+            textAlign: TextAlign.center,
             style: TextStyle(
                 color: Colors.grey,
-                fontSize: 19
+                fontSize: 17
             ),),
         ],
       ),

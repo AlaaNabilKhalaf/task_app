@@ -48,6 +48,7 @@ class _MyTapState extends State<MyTap> {
       else{
         Navigator.pop(context);
         await cubit.addTask(
+          context: context,
           taskState: 'TODO',
           taskImage: cubit.imageOfTheTask,
           title: cubit.title.text,

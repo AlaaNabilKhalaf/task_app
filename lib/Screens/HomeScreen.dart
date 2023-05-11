@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,6 +18,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+@override
+
 
 
   @override
@@ -89,67 +92,70 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 14.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Text(DateFormat.yMMMMd().format(DateTime.now()),
-                            style:  TextStyle(
-                              fontSize: 30,
-                              color: cubit.isMode? Colors.black : Colors.white,
-                            ),),
-                        ),
-                        Padding(
-                          padding:const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: GestureDetector(
-                            onTap: (){
-                     setState(() {
-                       cubit.initialSelectedDate = DateTime.now();
-                       cubit.taskType = 'Old Tasks';
-                       cubit.initialData = DateTime.now();
-                     });
-                            },
-                            onDoubleTap: (){
-                              setState(() {
-                                cubit.initialSelectedDate = DateTime.now().subtract(const Duration(days: 5));
-                                cubit.taskType = 'Today Tasks';
-                                cubit.initialData = DateTime.now().subtract(const Duration(days: 5));
-                              });
-                            },
-                            child: SizedBox(
-                              height: 50,width: 200,
-                              child: Text(cubit.taskType,style: TextStyle(
-                                  color: cubit.isMode? Colors.black : Colors.white,
-                                  fontSize: 32
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Text(DateFormat.yMMMMd().format(DateTime.now()),
+                              style:  TextStyle(
+                                fontSize: 30,
+                                color: cubit.isMode? Colors.black : Colors.white,
                               ),),
-                            ),
                           ),
-                        )
-                      ]
-                  ),
-                  MaterialButton(onPressed: ()
-                  {
-                    setState(() {
-                      cubit.startAnimated = true ;
-                    });
-                    cubit.clearValues();
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> const AddTask()));
-                  },
-                    color: myPrimeColor,
-                    elevation: 8,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12)),
-                    minWidth:MediaQuery.of(context).size.width*.35,
-                    height: MediaQuery.of(context).size.height*0.06,
-                    child: const Text('+ Add Task',
-                      style: TextStyle(color: Colors.white,
-                          fontSize: 20),),
-                  )
-                ],
+                          Padding(
+                            padding:const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: GestureDetector(
+                              onTap: (){
+                       setState(() {
+                         cubit.initialSelectedDate = DateTime.now();
+                         cubit.taskType = 'Old Tasks';
+                         cubit.initialData = DateTime.now();
+                       });
+                              },
+                              onDoubleTap: (){
+                                setState(() {
+                                  cubit.initialSelectedDate = DateTime.now().subtract(const Duration(days: 5));
+                                  cubit.taskType = 'Today Tasks';
+                                  cubit.initialData = DateTime.now().subtract(const Duration(days: 5));
+                                });
+                              },
+                              child: SizedBox(
+                                height: 50,width: 200,
+                                child: Text(cubit.taskType,style: TextStyle(
+                                    color: cubit.isMode? Colors.black : Colors.white,
+                                    fontSize: 32
+                                ),),
+                              ),
+                            ),
+                          )
+                        ]
+                    ),
+                    MaterialButton(onPressed: ()
+                    {
+                      setState(() {
+                        cubit.startAnimated = true ;
+                      });
+                      cubit.clearValues();
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=> const AddTask()));
+                    },
+                      color: myPrimeColor,
+                      elevation: 8,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)),
+                      minWidth:MediaQuery.of(context).size.width*.35,
+                      height: MediaQuery.of(context).size.height*0.06,
+                      child: const Text('+ Add Task',
+                        style: TextStyle(color: Colors.white,
+                            fontSize: 20),),
+                    )
+                  ],
+                ),
               ),
 
             ),

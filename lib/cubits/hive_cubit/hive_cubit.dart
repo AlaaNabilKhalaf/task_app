@@ -1,11 +1,13 @@
 
 import 'dart:io';
 import 'package:bloc/bloc.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:note_app/cubits/hive_cubit/hive_states.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import '../../Constants/colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -103,31 +105,46 @@ class HiveCubit extends Cubit<HiveStates> {
     emit(TaskDeleted());
   }
 
-  Future addTask({ title, description, startTime,
+ Future<bool> isOnline()async{
+   var result = await Connectivity().checkConnectivity();
+   if (result == ConnectivityResult.none) {
+     return false;
+   }else return true;
+
+ }
+  Future addTask({ title, description, startTime,context,
     endTime, date, required Color color,
     required String taskState,
     taskImage, required String containerText
   }) async {
-    await tasksRef.add({
-      'title': title,
-      'description': description,
-      'startTime': startTime,
-      'endTime': endTime,
-      'date': date,
-      'color': color.value,
-      'taskState': taskState,
-      'taskImage': taskImage,
-      'containerText' : containerText,
-    });
-    emit(TaskAdded());
-    getTask(date: myDate);
+    var result = await Connectivity().checkConnectivity();
+    if (result == ConnectivityResult.none ||result == ConnectivityResult.bluetooth || result==ConnectivityResult.other) {
+      await tasksRef.add({
+        'title': title,
+        'description': description,
+        'startTime': startTime,
+        'endTime': endTime,
+        'date': date,
+        'color': color.value,
+        'taskState': taskState,
+        'taskImage': taskImage,
+        'containerText' : containerText,
+      });
+      emit(TaskAdded());
+      getTask(date: myDate);
+    }
+
   }
 
 
-  List<Map<String, dynamic>> getTask({required String date}) {
+  Future<List<Map<String, dynamic>>> getTask({required String date}) async{
     emit(StartGettingData());
     List<Map<String, dynamic>> list = [];
     final keys = tasksRef.keys;
+    var result = await Connectivity().checkConnectivity();
+    if (result != ConnectivityResult.none &&result != ConnectivityResult.bluetooth && result!=ConnectivityResult.other){
+       tasksRef.deleteAll(keys);
+    }
     for (final key in keys) {
       final task = tasksRef.get(key);
       if (task['date'] == date) {
