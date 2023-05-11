@@ -23,11 +23,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final cubit = BlocProvider.of<HiveCubit>(context);
    cubit.getTask(date: cubit.myDate);
+    cubit.changeAnimationValue();
     Future.delayed(const Duration(milliseconds: 500),(){
       cubit.makeAnimationValueTure();
-      Future.delayed(const Duration(milliseconds: 500),(){
-        cubit.changeAnimationValue();
-      });
+      // Future.delayed(const Duration(milliseconds: 500),(){
+      //
+      // });
     });
     return BlocConsumer<HiveCubit,HiveStates>(
       listener: (context,state){},
@@ -53,13 +54,15 @@ class _HomeScreenState extends State<HomeScreen> {
           actions: [
             GestureDetector(
               onTap: () async {
-               try{
-                await cubit.pickImage();
+               try  {
+               await cubit.pickImage();
                }
-                 // else{
-                 // cubit.getImage();}}
                catch(error){
-                 debugPrint('the error is $error');
+                (context,text) {
+                   ScaffoldMessenger.of(context).showSnackBar(
+                     SnackBar(content: Text(error.toString())),
+                   );
+                 };
                }
                Future.delayed(const Duration(milliseconds: 500),(){
                    cubit.makeAnimationValueTure();
@@ -127,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   MaterialButton(onPressed: ()
                   {
                     setState(() {
-                      cubit.startAnimated = false ;
+                      cubit.startAnimated = true ;
                     });
                     cubit.clearValues();
                     Navigator.push(context, MaterialPageRoute(builder: (context)=> const AddTask()));
@@ -174,11 +177,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: Colors.grey
                   ),
                   onDateChange: (data){
+                    cubit.changeAnimationValue();
                     Future.delayed(const Duration(milliseconds: 500),(){
                       cubit.makeAnimationValueTure();
-                      Future.delayed(const Duration(milliseconds: 500),(){
-                        cubit.changeAnimationValue();
-                      });
+                      // Future.delayed(const Duration(milliseconds: 500),(){
+                      //
+                      // });
                     });
                     cubit.myDate = DateFormat.yMMMMd().format(data);
                     cubit.getTask(date: cubit.myDate.toString());
@@ -217,7 +221,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     });
                                     cubit.clearValues();
                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>
-                                    const  TaskScreen()));
+                                    const TaskScreen()));
                                   },
                                   child: SingleChildScrollView(
                                     physics: const BouncingScrollPhysics(),
@@ -251,7 +255,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 ),),
                                               ],
                                             ),
-
 
                                           Text(cubit.tasksData[index]['description'],style: const TextStyle(
                                               fontSize: 18,

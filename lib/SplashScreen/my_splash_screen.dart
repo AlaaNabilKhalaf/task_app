@@ -14,15 +14,15 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState(){
-    Future.delayed(const Duration(seconds:3),(){
+    Future.delayed(const Duration(seconds:2),(){
       Navigator.pushReplacement(context, MaterialPageRoute
         (builder: (context)=> const HomeScreen()));
-      Future.delayed(const Duration(milliseconds: 100),(){
-          BlocProvider.of<HiveCubit>(context).makeAnimationValueTure();
-          Future.delayed(const Duration(milliseconds: 400),(){
-            BlocProvider.of<HiveCubit>(context).changeAnimationValue();
-          });
-      });
+      // Future.delayed(const Duration(milliseconds: 100),(){
+      //     BlocProvider.of<HiveCubit>(context).makeAnimationValueTure();
+      //     Future.delayed(const Duration(milliseconds: 400),(){
+      //       BlocProvider.of<HiveCubit>(context).changeAnimationValue();
+      //     });
+      // });
     });
     super.initState();
   }
@@ -34,11 +34,11 @@ class _SplashScreenState extends State<SplashScreen> {
         onTap: (){
           Navigator.pushReplacement(context, MaterialPageRoute
             (builder: (context)=> const HomeScreen()));
+          BlocProvider.of<HiveCubit>(context).changeAnimationValue();
           Future.delayed(const Duration(milliseconds: 100),(){
             BlocProvider.of<HiveCubit>(context).makeAnimationValueTure();
-            Future.delayed(const Duration(milliseconds: 500),(){
-              BlocProvider.of<HiveCubit>(context).changeAnimationValue();
-            });
+            // Future.delayed(const Duration(milliseconds: 500),(){
+            // });
           });},
         child: Scaffold(
           backgroundColor: myPrimeColor,

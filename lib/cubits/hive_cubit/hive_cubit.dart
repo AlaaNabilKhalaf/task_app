@@ -11,39 +11,39 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 
-class HiveCubit extends Cubit<HiveStates>{
+class HiveCubit extends Cubit<HiveStates> {
   HiveCubit() : super(InitialHiveState());
 
   //Variables
 
- // bool taskImageBool = false ;
+  // bool taskImageBool = false ;
 
-   String? imageOfTheTask ;
+  String? imageOfTheTask;
 
-   bool startAnimated = false ;
+  bool startAnimated = false;
 
- int selectedIndex = 5 ;
+  int selectedIndex = 5;
 
-   //bool changeContainerColor = false ;
+  //bool changeContainerColor = false ;
 
-   dynamic task ;
+  dynamic task;
 
-   List<String> text = [
-     'Quality Time',
-     'Relaxing',
-     'Studying',
-     'Working' ];
+  List<String> text = [
+    'Quality Time',
+    'Relaxing',
+    'Studying',
+    'Working'];
 
-   List<String> images = [
-  'lib/assets/images/family.png',
-  'lib/assets/images/Lovepik_com-401148060-relaxing-summer-vacation.png',
-  'lib/assets/images/studying.png',
-  'lib/assets/images/—Pngtree—modern flat design concept of_5332905.png',
-] ;
+  List<String> images = [
+    'lib/assets/images/family.png',
+    'lib/assets/images/Lovepik_com-401148060-relaxing-summer-vacation.png',
+    'lib/assets/images/studying.png',
+    'lib/assets/images/—Pngtree—modern flat design concept of_5332905.png',
+  ];
 
   Color containerColor = myPrimeColor;
 
-  String ? dropdownValue ;
+  String ? dropdownValue;
 
   String ? repeatedValue;
 
@@ -61,62 +61,63 @@ class HiveCubit extends Cubit<HiveStates>{
 
   String cornerText = 'TODO';
 
-  File? image ;
+  File? image;
 
   File?myImage;
 
   final tasksRef = Hive.box('Tasks');
 
-  List<Map<String,dynamic>> tasksData= [];
+  List<Map<String, dynamic>> tasksData = [];
 
   String im = '';
 
   String myDate = DateFormat.yMMMMd().format(DateTime.now()).toString();
+
   //Methods
 
-  changeContainerColorMethod({required int index}){
-  selectedIndex = index ;
-  emit(ContainerColorChanged());
+  changeContainerColorMethod({required int index}) {
+    selectedIndex = index;
+    emit(ContainerColorChanged());
   }
 
-  void changeMode(){
+  void changeMode() {
     isMode = !isMode;
     emit(ModeChanged());
   }
 
 
-  void deleteTask({required taskKey}){
+  void deleteTask({required taskKey}) {
     tasksRef.delete(taskKey);
     emit(TaskDeleted());
   }
+
 // changeTaskImageBool(){
 //     taskImageBool = true ;
 //     emit(TaskImageBoolChanged());
 // }
 
- Future addTask ({required title, description , startTime ,
-    endTime , required date, required Color color,
+  Future addTask({required title, description, startTime,
+    endTime, required date, required Color color,
     required String taskState,
-  taskImage}) async {
+    taskImage}) async {
     await tasksRef.add({
-      'title' : title,
-      'description' : description,
-      'startTime' : startTime,
-      'endTime' : endTime,
-      'date' : date,
-      'color' : color.value,
-      'taskState' : taskState,
-      'taskImage' : taskImage
+      'title': title,
+      'description': description,
+      'startTime': startTime,
+      'endTime': endTime,
+      'date': date,
+      'color': color.value,
+      'taskState': taskState,
+      'taskImage': taskImage
     });
     emit(TaskAdded());
-   getTask(date: myDate);
-
+    getTask(date: myDate);
   }
 
 
-  List<Map<String,dynamic>> getTask({required String date}) {
+  List<Map<String, dynamic>> getTask({required String date}) {
     emit(StartGettingData());
-    List<Map<String,dynamic>> list=[];
+    List<Map<String, dynamic>> list = [];
     final keys = tasksRef.keys;
     for (final key in keys) {
       final task = tasksRef.get(key);
@@ -127,10 +128,10 @@ class HiveCubit extends Cubit<HiveStates>{
           'startTime': task['startTime'],
           'endTime': task['endTime'],
           'description': task['description'],
-          'color' : task['color'],
-          'taskState' : task['taskState'],
-          'date' : task['date'],
-          'taskImage' : task[ 'taskImage']
+          'color': task['color'],
+          'taskState': task['taskState'],
+          'date': task['date'],
+          'taskImage': task[ 'taskImage']
         };
         list.add(mapTask);
       }
@@ -141,84 +142,92 @@ class HiveCubit extends Cubit<HiveStates>{
   }
 
 
-  clearValues(){
+  clearValues() {
     containerColor = myPrimeColor;
     title.clear();
     startTime.clear();
     endTime.clear();
     date.clear();
     description.clear();
+    selectedIndex = 5;
     emit(DataCleared());
   }
 
 
   Future pickImage() async {
     final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if(image == null)return;
+    if (image == null) return;
     final imageTemporary = File(image.path);
     this.image = imageTemporary;
     emit(Loading());
     emit(ImageChosen());
-   // await addImage(image: image);
-   //  getImage();
+    // await addImage(image: image);
+    //  getImage();
     return image;
-
   }
 
 
- Future addImage({required image})async{
+  Future addImage({required image}) async {
     await tasksRef.add({
-      'imagePath' : image
+      'imagePath': image
     });
-  emit(ImagePathAdded());
+    emit(ImagePathAdded());
   }
 
 
-   getImage() {
-      List<Map<String,dynamic>> list=[];
-      final keys = tasksRef.keys;
-      for (final key in keys) {
-        final images = tasksRef.get(key);
-        final mapImage = {
-          'imagePath' : images['imagePath'],
-          'key' : key
-        };
-        list.add(mapImage);
-        }
-     im =  list.last.toString() ;
-      myImage = File(im);
-emit(ImagePathReturned());
-
+  getImage() {
+    List<Map<String, dynamic>> list = [];
+    final keys = tasksRef.keys;
+    for (final key in keys) {
+      final images = tasksRef.get(key);
+      final mapImage = {
+        'imagePath': images['imagePath'],
+        'key': key
+      };
+      list.add(mapImage);
     }
+    im = list.last.toString();
+    myImage = File(im);
+    emit(ImagePathReturned());
+  }
 
 
-  changeAnimationValue(){
-    startAnimated = ! startAnimated ;
+  changeAnimationValue() {
+    startAnimated = !startAnimated;
     // emit(AnimationValueChanged());
   }
 
 
-  makeAnimationValueTure(){
-    startAnimated = true ;
+  makeAnimationValueTure() {
+    startAnimated = true;
     emit(MakeAnimationValueTure());
   }
 
 
-  makeAnimationValueFalse (){
-    startAnimated = false ;
+  makeAnimationValueFalse() {
+    startAnimated = false;
     emit(MakeAnimationValueFalse());
   }
 
 
-  initialTheTask({required int index}){
+  initialTheTask({required int index}) {
     task = tasksData[index];
     emit(InitialedTheTask());
+  }
 
-}
-
-insertImageTask({required String taskImage}){
-    imageOfTheTask = taskImage ;
+  insertImageTask({required String taskImage}) {
+    imageOfTheTask = taskImage;
     emit(TaskImageInserted());
-}
+  }
+
+  void snackBar(context, text) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: text),
+    );
+  }
+
+
+
+
 
 }

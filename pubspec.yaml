@@ -43,6 +43,8 @@ dependencies:
   bloc:
   flutter_bloc:
   rflutter_alert:
+  flutter_launcher_icons: ^0.13.1
+  animated_text_kit:
 
 
 dev_dependencies:
@@ -50,6 +52,11 @@ dev_dependencies:
     sdk: flutter
   hive_generator:
   build_runner:
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: false
+  image_path: "lib/assets/images/PngItem_630638.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

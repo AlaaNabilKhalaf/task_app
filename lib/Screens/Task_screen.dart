@@ -1,4 +1,5 @@
 
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -48,10 +49,23 @@ class TaskScreen extends StatelessWidget {
               padding: const EdgeInsets.all(25.0),
               child: Column(
                 children: [
-                  const Text('Hello, Beauty',style: TextStyle(
-                    fontSize: 40,
-                  ),),
-                  const  Text('Remember To Enjoy Yourself Too ',style: TextStyle(
+               DefaultTextStyle(
+              style: TextStyle(
+              fontSize: 25.0,
+                color:  cubit.isMode? Colors.black : Colors.white,
+              ),
+              child: AnimatedTextKit(
+                stopPauseOnTap: true,
+                totalRepeatCount: 1,
+                animatedTexts: [
+                  WavyAnimatedText('How Was your Day ?'),
+                ],
+                isRepeatingAnimation: true,
+
+              ),
+            ),
+
+                  const  Text(' Hope You Had A Productive One ',style: TextStyle(
                       color: Colors.grey,
                       fontSize: 20
                   ),),
@@ -187,3 +201,36 @@ class TaskScreen extends StatelessWidget {
       );
   }
 }
+// AnimatedTextKit(
+//   animatedTexts: [
+//     FadeAnimatedText(
+//       'Fade First',
+//       textStyle: TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold),
+//     ),
+//     ScaleAnimatedText(
+//       'Then Scale',
+//       textStyle: TextStyle(fontSize: 70.0, fontFamily: 'Canterbury'),
+//     ),
+//   ],
+// ),
+
+// AnimatedTextKit(
+//   animatedTexts: [
+//     TypewriterAnimatedText(
+//       'How Are You ?',
+//       textStyle: const TextStyle(
+//         fontSize: 32.0,
+//         fontWeight: FontWeight.bold,
+//       ),
+//       speed: const Duration(milliseconds: 250),
+//     ),
+//   ],
+//
+//   totalRepeatCount: 4,
+//   pause: const Duration(milliseconds: 300),
+//   displayFullTextOnTap: true,
+//   stopPauseOnTap: true,
+// ),
+// const Text('Hello, Beauty',style: TextStyle(
+//   fontSize: 40,
+// ),),

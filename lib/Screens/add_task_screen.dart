@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:note_app/Screens/HomeScreen.dart';
 import 'package:note_app/cubits/hive_cubit/hive_states.dart';
 import 'package:note_app/widgets/CreateTaskTap.dart';
 import '../Constants/colors.dart';
@@ -26,13 +27,14 @@ class _AddTaskState extends State<AddTask> {
           appBar: AppBar(
             leading: IconButton(icon : Icon(Icons.arrow_back_ios,color: myPrimeColor,),
               onPressed: (){
-                Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> const HomeScreen()));
                 cubit.getTask(date: cubit.myDate);
-                Future.delayed(const Duration(milliseconds: 100),(){
+                cubit.changeAnimationValue();
+                Future.delayed(const Duration(milliseconds: 500),(){
                   cubit.makeAnimationValueTure();
-                  Future.delayed(const Duration(milliseconds: 400),(){
-                    cubit.changeAnimationValue();
-                  });
+                  // Future.delayed(const Duration(milliseconds: 400),(){
+                  //
+                  // });
                 });
               },
               color: myPrimeColor, ),
@@ -252,14 +254,19 @@ class _AddTaskState extends State<AddTask> {
                   ),
 
                   SizedBox(
-                    height: MediaQuery.of(context).size.height*0.24,
-                    width: MediaQuery.of(context).size.width*0.2,
+                    height: MediaQuery.of(context).size.height*0.22,
+                    width: MediaQuery.of(context).size.width*0.15,
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: ListView.separated(
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context , index){
                             return GestureDetector(
+                              onDoubleTap: (){
+                               setState(() {
+                                 cubit.selectedIndex = 5 ;
+                               });
+                              },
                               onTap: (){
                              setState(() {
                                cubit.changeContainerColorMethod(index: index);
@@ -281,7 +288,7 @@ class _AddTaskState extends State<AddTask> {
                                       borderRadius: BorderRadius.circular(26),
                                       border: Border.all(
                                         width: 5,
-                                        color: cubit.selectedIndex == index ? myPrimeColor : cubit.isMode ? Colors.white: Colors.black,
+                                        color: cubit.selectedIndex == index ? myPrimeColor : Colors.transparent,
                                       )
                                   ),
                                   child: Container(
