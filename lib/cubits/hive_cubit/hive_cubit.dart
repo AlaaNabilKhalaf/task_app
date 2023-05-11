@@ -61,17 +61,14 @@ class HiveCubit extends Cubit<HiveStates> {
 
   bool isMode = true;
 
-  String containerText = ' jgdfjkdjajd' ;
+  String containerText = ' ' ;
 
   File? image;
 
-  File?myImage;
 
   final tasksRef = Hive.box('Tasks');
 
   List<Map<String, dynamic>> tasksData = [];
-
-  String im = '';
 
   String myDate = DateFormat.yMMMMd().format(DateTime.now()).toString();
 
@@ -160,6 +157,7 @@ class HiveCubit extends Cubit<HiveStates> {
     date.clear();
     description.clear();
     selectedIndex = 5;
+    containerText = ' ';
     emit(DataCleared());
   }
 
@@ -185,21 +183,21 @@ class HiveCubit extends Cubit<HiveStates> {
   }
 
 
-  getImage() {
-    List<Map<String, dynamic>> list = [];
-    final keys = tasksRef.keys;
-    for (final key in keys) {
-      final images = tasksRef.get(key);
-      final mapImage = {
-        'imagePath': images['imagePath'],
-        'key': key
-      };
-      list.add(mapImage);
-    }
-    im = list.last.toString();
-    myImage = File(im);
-    emit(ImagePathReturned());
-  }
+  // getImage() {
+  //   List<Map<String, dynamic>> list = [];
+  //   final keys = tasksRef.keys;
+  //   for (final key in keys) {
+  //     final images = tasksRef.get(key);
+  //     final mapImage = {
+  //       'imagePath': images['imagePath'],
+  //       'key': key
+  //     };
+  //     list.add(mapImage);
+  //   }
+  //   im = list.last.toString();
+  //   myImage = File(im);
+  //   emit(ImagePathReturned());
+  // }
 
 
   changeAnimationValue() {
@@ -239,13 +237,24 @@ class HiveCubit extends Cubit<HiveStates> {
       SnackBar(content: text),
     );
   }
+  // Future<void> updateTask({
+  //   required String taskKey,
+  //   required Map<String, dynamic> newValues,
+  // }) async {
+  //   final box = Hive.box('tasks');
+  //   final taskIndex = box.keys.toList().indexOf(taskKey);
+  //   if (taskIndex != -1) {
+  //     await box.putAt(taskIndex, newValues);
+  //   }
+  // }
 
-  changeStatus(index) {
-    tasksData[index]['taskState'] = 'Completed';
-    emit(ChangeStatus());
-  }
-
-
+void changeState({required int index}){
+  if(tasksData[index]['taskState'] == 'Complete')
+    {tasksData[index]['taskState'] = 'TODO';}
+  else
+  {tasksData[index]['taskState'] = 'Complete';}
+   emit(ChangeState());
+}
 
 
 }

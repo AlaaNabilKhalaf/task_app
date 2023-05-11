@@ -277,20 +277,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                         child: Column(
                                           children: [
                                             MaterialButton(
-                                              onPressed: (){
-                                                 cubit.changeStatus(index);
+                                              onPressed: () {
+                                                cubit.changeState(index: index);
                                                 Navigator.pop(context);
-                                                cubit.startAnimated = true ;
+                                                cubit.makeAnimationValueTure();
 
-                                         //   cubit.getTask(date: cubit.myDate);
-                                            },
+                                              },
                                               color: myPrimeColor,
                                               elevation: 8,
                                               shape: RoundedRectangleBorder(
                                                   borderRadius: BorderRadius.circular(12)),
                                               minWidth:double.infinity,
                                               height: MediaQuery.of(context).size.height*0.06,
-                                              child:  Text(cubit.theTextBool ? 'Complete Task' : 'TODO Task',
+                                              child:  Text(cubit.tasksData[index]['taskState'] == 'TODO'? 'Complete Task' : 'TODO Task',
                                                 style: TextStyle(color: Colors.white,
                                                     fontSize: 20),),
                                             ),
@@ -318,11 +317,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                             GestureDetector(
                                               onTap: (){
-
                                                   Navigator.pop(context);
-                                                  cubit.startAnimated = true ;
-                                                  print(cubit.tasksData[index]['taskState']);
-
+                                                  cubit.makeAnimationValueTure();
                                               },
                                               child: Container(
                                                 alignment: Alignment.center,
@@ -352,7 +348,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: RotatedBox(
                                     quarterTurns: 3,
                                     child: Text(
-                                      cubit.tasksData[index]['taskState'].toString(),
+                                      cubit.tasksData[index]['taskState'],
                                       style: const TextStyle(
                                           fontSize: 17,
                                           color: Colors.black

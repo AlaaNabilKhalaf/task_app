@@ -21,7 +21,7 @@ class TaskImageBoolChanged extends HiveStates {}
 class TheTextChanged extends HiveStates {}
 class TextIndexReturned extends HiveStates {}
 class ContainerTextInserted extends HiveStates {}
-class ChangeStatus extends HiveStates {}
+class ChangeState extends HiveStates {}
 
 
 

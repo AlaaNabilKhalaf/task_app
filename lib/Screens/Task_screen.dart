@@ -86,53 +86,56 @@ class TaskScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                //title
-                                children:  [
-                                  Row(
-                                    children:  [
-                                      Column(
+                              SingleChildScrollView(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  //title
+                                  children:  [
+                                    Row(
+                                      children:  [
+                                        Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Icon(Icons.title,color: CupertinoColors.white,size: 30,),
+                                                SizedBox(width: 15,),
+                                                Text('Title',style: TextStyle(color: Colors.black,fontSize: 33),),
+                                              ],
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.all(0.0),
+                                              child: Text(cubit.task['title'].toString(), style: const TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 26
+                                              ),),
+                                            ),
+                                          ],
+                                        ),
+
+                                      ],
+                                    ),
+                                   if(cubit.task['taskImage'] == null)
+                                     SizedBox(width: MediaQuery.of(context).size.width*0.1,
+                                       height: MediaQuery.of(context).size.height*0.1,),
+                                   if(cubit.task['taskImage'] != null )
+                                      Row(
                                         children: [
-                                          Row(
-                                            children: [
-                                              Icon(Icons.title,color: CupertinoColors.white,size: 30,),
-                                              SizedBox(width: 15,),
-                                              Text('Title',style: TextStyle(color: Colors.black,fontSize: 33),),
-                                            ],
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(0.0),
-                                            child: Text(cubit.task['title'].toString(), style: const TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 26
-                                            ),),
+                                          SizedBox(width: MediaQuery.of(context).size.width*0.3,
+                                            height: MediaQuery.of(context).size.height*0.15,
+                                            child: Image.asset('${cubit.task['taskImage']}',
+                                              width: MediaQuery.of(context).size.width*0.3,
+                                              height: MediaQuery.of(context).size.height*0.15,),
                                           ),
                                         ],
                                       ),
-
-                                    ],
-                                  ),
-                                 if(cubit.task['taskImage'] == null)
-                                   SizedBox(width: MediaQuery.of(context).size.width*0.1,
-                                     height: MediaQuery.of(context).size.height*0.1,),
-                                 if(cubit.task['taskImage'] != null )
-                                    Row(
-                                      children: [
-                                        SizedBox(width: MediaQuery.of(context).size.width*0.3,
-                                          height: MediaQuery.of(context).size.height*0.15,
-                                          child: Image.asset('${cubit.task['taskImage']}',
-                                            width: MediaQuery.of(context).size.width*0.3,
-                                            height: MediaQuery.of(context).size.height*0.15,),
-                                        ),
-                                      ],
-                                    ),
-                                ],
+                                  ],
+                                ),
+                                scrollDirection: Axis.horizontal,
                               ),
 
                               //description
-                               Padding(
-                                padding:const EdgeInsets.all(10.0),
+                              const Padding(
+                                padding: EdgeInsets.all(10.0),
                                 child: Row(
                                   children:  [
                                     Icon(Icons.file_copy,color: CupertinoColors.white,size: 30,),
@@ -149,8 +152,8 @@ class TaskScreen extends StatelessWidget {
                                 ),),
                               ),
                               //date
-                               Padding(
-                                padding:const  EdgeInsets.all(10.0),
+                              const Padding(
+                                padding:  EdgeInsets.all(10.0),
                                 child: Row(
                                   children:[
                                     Icon(Icons.calendar_month_sharp,color: CupertinoColors.white,size: 30,),
@@ -170,8 +173,8 @@ class TaskScreen extends StatelessWidget {
                              if(cubit.task['startTime'] == null || cubit.task['endTime'] == null  )
                                const SizedBox(height: 10,),
                           if(cubit.task['startTime'] != '' || cubit.task['endTime'] != '' )
-                              Padding(
-                                padding:const EdgeInsets.all(10.0),
+                            const  Padding(
+                                padding: EdgeInsets.all(10.0),
                                 child: Row(
                                   children: [
                                     Icon(Icons.watch_later_outlined,color: CupertinoColors.white,size: 30,),
