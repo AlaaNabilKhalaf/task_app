@@ -37,14 +37,14 @@ class _ThemingAppState extends State<ThemingApp> {
     required startTime ,
     required endTime ,
   required date,
-  required color}) async {
+  required Color color }) async {
     await tasksRef.add({
       'title' : title,
       'description' : description,
       'startTime' : startTime,
       'endTime' : endTime,
       'date' : date,
-      'color' : color
+      'color' : color.value
     });
     print('task added');
   }

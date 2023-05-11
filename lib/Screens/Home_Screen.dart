@@ -1,7 +1,6 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:horizontalcalender/horizontalcalendar.dart';
 import 'package:intl/intl.dart';
 import 'package:note_app/Screens/add_task_screen.dart';
 import 'package:note_app/constances/colors.dart';
@@ -17,8 +16,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late String myDate ;
 
-  static _HomeScreenState of(BuildContext context) =>
-      context.findAncestorStateOfType<_HomeScreenState>()!;
   @override
   Widget build(BuildContext context) {
 
@@ -109,8 +106,6 @@ class _HomeScreenState extends State<HomeScreen> {
       width: double.infinity,
    decoration: BoxDecoration(
      color : ThemingApp.of(context).isMode? Colors.white : Colors.black,
-
-
    ),
     child: DatePicker(
     DateTime.now(),
@@ -179,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           height:MediaQuery.of(context).size.width*0.30,
                           width: double.infinity,
                           decoration: BoxDecoration(
-                            color: ThemingApp.of(context).tasksData[index]['color'],
+                            color: Color(ThemingApp.of(context).tasksData[index]['color']??5555),
                             borderRadius: BorderRadius.circular(15.0),
                             border: Border.all(
                               width: 1,

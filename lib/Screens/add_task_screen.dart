@@ -15,7 +15,9 @@ static _AddTaskState of(BuildContext context) =>
 }
 
 class _AddTaskState extends State<AddTask> {
- Color containerColor = Colors.grey.shade500 ;
+
+late Color containerColor ;
+
    TextEditingController title = TextEditingController();
 
    TextEditingController description = TextEditingController();
@@ -133,6 +135,8 @@ String ? repeatedValue;
                 ),),
               ),
               TextField(
+                keyboardType: TextInputType.none,
+
                 onTap: (){
                   setState(() {});
                   showDatePicker(context: context,
@@ -178,7 +182,10 @@ String ? repeatedValue;
                         ),),
                       ),
                       TextField(
+                        keyboardType: TextInputType.none,
+
                         onTap: (){
+
                           setState(() {});
                           showTimePicker(context: context,
                               initialTime: TimeOfDay.now()).then((value) {
@@ -224,6 +231,7 @@ String ? repeatedValue;
                         ),),
                       ),
                       TextField(
+                        keyboardType: TextInputType.none,
                         onTap: (){
                           setState(() {});
                           showTimePicker(context: context,
@@ -271,6 +279,7 @@ String ? repeatedValue;
                ),
  //ReminderText
                TextField(
+                 keyboardType: TextInputType.none,
                  decoration: InputDecoration(
                      suffixIcon:
                      SizedBox(
@@ -322,6 +331,7 @@ String ? repeatedValue;
                ),
 
                TextField(
+                 keyboardType: TextInputType.none,
                  decoration: InputDecoration(
                      suffixIcon:
                      SizedBox(
@@ -384,6 +394,9 @@ String ? repeatedValue;
                 children: [
                   GestureDetector(
                     onTap: (){
+                      setState(() {
+
+                      });
                       containerColor = Colors.purple;
 
                     },
@@ -408,6 +421,9 @@ String ? repeatedValue;
 
                   GestureDetector(
                     onTap: (){
+                      setState(() {
+
+                      });
                       containerColor = Colors.pink;
                     },
                     child: Container(
@@ -431,6 +447,9 @@ String ? repeatedValue;
 
                   GestureDetector(
                       onTap: (){
+                        setState(() {
+
+                        });
                         containerColor = Colors.brown;
                       },
                     child: Container(
