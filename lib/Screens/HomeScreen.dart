@@ -9,23 +9,12 @@ import 'package:note_app/cubits/hive_cubit/hive_cubit.dart';
 import 'package:note_app/cubits/hive_cubit/hive_states.dart';
 import '../Constants/colors.dart';
 
-class HomeScreen extends StatefulWidget {
- const HomeScreen({Key? key}) : super(key: key);
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
 
-class _HomeScreenState extends State<HomeScreen> {
-  bool startAnimated = false ;
-@override
-  void initState() async{
-  BlocProvider.of<HiveCubit>(context).getTask(date: DateTime.now().toString());
-  setState(() {
-  });
-    // TODO: implement initState
-    super.initState();
-  }
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +31,6 @@ class _HomeScreenState extends State<HomeScreen> {
           leading:
           IconButton(
             onPressed: (){
-              setState(() {
-              });
               cubit.changeMode();
             },
             icon: Icon(cubit.isMode? Icons.nightlight_round : Icons.sunny,
@@ -57,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     image: cubit.pickImage());
                   cubit.getImage();
                 }catch(e){
-                  print('the error is $e');
+                  debugPrint('the error is $e');
                 }
               },
               child: Padding(
@@ -68,8 +55,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: myPrimeColor,
                       shape: BoxShape.circle
                   ),
-                  child: cubit.image == null ? const Icon(Icons.person,size: 30,)  :
-                  Image.file(cubit.image!,height: 40,width: 40,fit: BoxFit.cover,),
+                  child: cubit.imageFile == null ? const Icon(Icons.person,size: 30,)  :
+                  Image.file(cubit.imageFile!,height: 40,width: 40,fit: BoxFit.cover,),
                 ),
               ),
             )
@@ -105,9 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   MaterialButton(onPressed: ()
                   {
-                   setState(() {
-                     startAnimated = false ;
-                   });
+                   cubit.makeAnimationValueFalse();
                     cubit.clearValues();
                     Navigator.push(context, MaterialPageRoute(builder: (context)=> const AddTask()));
                   },
@@ -154,11 +139,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   onDateChange: (data){
                   Future.delayed(const Duration(milliseconds: 500),(){
-                  setState(() {
-                  startAnimated = true;
+                  cubit.makeAnimationValueTure();
                   Future.delayed(const Duration(milliseconds: 500),(){
-                    startAnimated = ! startAnimated ;
-                  });
+                    cubit.changeAnimationValue();
                   });
                   });
                     cubit.myDate = DateFormat.yMMMMd().format(data);
@@ -202,7 +185,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             borderRadius: BorderRadius.circular(15.0),),
                           height:MediaQuery.of(context).size.width*0.30,
                           curve: Curves.easeInOut,
-                          transform: Matrix4.translationValues(startAnimated ? 0 :
+                          transform: Matrix4.translationValues(cubit.startAnimated ? 0 :
                           MediaQuery.of(context).size.width*0.8, 0, 0),
                           duration:  Duration(milliseconds: 300 + (index * 200) ),
                           child: Row(
@@ -211,9 +194,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         flex: 7,
                           child: GestureDetector(
                             onTap: (){
-                              setState(() {
-                                cubit.task = cubit.tasksData[index];
-                              });
+                            cubit.initialTheTask(index: index);
                               cubit.clearValues();
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>
                                 const  TaskScreen()));
@@ -277,10 +258,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                       MaterialButton(onPressed: (){
                       cubit.tasksData[index]['taskState'] = 'Completed';
-                      setState(() {
                       Navigator.pop(context);
-                      startAnimated = true ;
-                      });
+                      cubit.makeAnimationValueTure();
                       },
                       color: myPrimeColor,
                       elevation: 8,
@@ -298,7 +277,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       cubit.tasksData[index]['key']);
                       cubit.getTask(date: cubit.myDate);
                       Navigator.pop(context);
-                      startAnimated = true ;
+                      cubit.startAnimated = true ;
                       },
                       color: Colors.redAccent,
                       elevation: 8,
@@ -314,10 +293,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
                       GestureDetector(
                         onTap: (){
-                          setState(() {
                             Navigator.pop(context);
-                            startAnimated = true ;
-                          });
+                            cubit.makeAnimationValueTure();
                         },
                         child: Container(
                         alignment: Alignment.center,

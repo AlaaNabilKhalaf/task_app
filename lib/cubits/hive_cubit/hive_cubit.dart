@@ -11,7 +11,7 @@ class HiveCubit extends Cubit<HiveStates> {
   HiveCubit() : super(InitialHiveState());
 
   //Variables
-
+  bool startAnimated = false ;
   dynamic task;
 
   Color containerColor = myPrimeColor;
@@ -34,7 +34,7 @@ class HiveCubit extends Cubit<HiveStates> {
 
   String cornerText = 'TODO';
 
-  File? image;
+ File? image;
 
   final tasksRef = Hive.box('Tasks');
 
@@ -45,6 +45,11 @@ class HiveCubit extends Cubit<HiveStates> {
   String myDate = DateTime.now().toString();
 
   //Methods
+
+  void changeMode() {
+    isMode = !isMode;
+    emit(ModeChanged());
+  }
 
   // Future pickImage() async{
   //   final image = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -58,11 +63,6 @@ class HiveCubit extends Cubit<HiveStates> {
 //   containerColor == chosenColor ? Colors.grey : chosenColor ;
 //   emit(ContainerColorChanged());
 // }
-
-  void changeMode() {
-    isMode = !isMode;
-    emit(ModeChanged());
-  }
 
   void deleteTask({required taskKey}) {
     tasksRef.delete(taskKey);
@@ -154,6 +154,20 @@ class HiveCubit extends Cubit<HiveStates> {
   }
 
   // Image.file(File(path)).image
-
-
+changeAnimationValue(){
+    startAnimated = ! startAnimated ;
+    emit(AnimationValueChanged());
+}
+makeAnimationValueTure(){
+    startAnimated = true ;
+    emit(MakeAnimationValueTure());
+}
+makeAnimationValueFalse (){
+    startAnimated = false ;
+    emit(MakeAnimationValueFalse());
+}
+initialTheTask({required int index}){
+  task = tasksData[index];
+    emit(InitialedTheTask());
+}
 }

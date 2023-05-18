@@ -1,6 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:note_app/Widgets/text_%20with_padding.dart';
+import 'package:note_app/Widgets/text_and_icon.dart';
 import 'package:note_app/cubits/hive_cubit/hive_cubit.dart';
 import 'package:note_app/cubits/hive_cubit/hive_states.dart';
 import '../Constants/colors.dart';
@@ -50,86 +51,28 @@ class TaskScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Row(
-                                  //title
-                                  children: const [
-                                    Icon(Icons.title,color: CupertinoColors.white,size: 33,),
-                                    SizedBox(width: 15,),
-                                    Text('Title',style: TextStyle(color: Colors.white,fontSize: 40),),
-                                  ],
-                                ),
-                              ),
+                              // Title
+                             const IconAndText(text: 'Title', icon: Icons.title),
+                           TextWithPadding(myText: cubit.task['title'].toString()),
 
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(cubit.task['title'].toString(), style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 28
-                                ),),
-                              ),
                               //description
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Row(
-                                  children: const [
-                                    Icon(Icons.file_copy,color: CupertinoColors.white,size: 33,),
-                                    SizedBox(width: 15,),
-                                    Text('Description',style: TextStyle(color: Colors.white,fontSize: 40),),
-                                  ],
-                                ),
-                              ),
-                             Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child:  Text(cubit.task['description'].toString(),  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 30
-                                ),),
-                              ),
+                          const IconAndText(text: 'Description', icon: Icons.file_copy_outlined),
+                            TextWithPadding(myText: cubit.task['description'].toString()),
+
                               //date
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Row(
-                                  children: const [
-                                    Icon(Icons.calendar_month_sharp,color: CupertinoColors.white,size: 33,),
-                                    SizedBox(width: 15,),
-                                    Text('Date',style: TextStyle(color: Colors.white,fontSize: 40),),
-                                  ],
-                                ),
-                              ),
-                             Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child:  Text(cubit.task['date'].toString(),  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 30
-                                ),),
-                              ),
+                            const IconAndText(text: 'Date', icon: Icons.calendar_month_sharp),
+                            TextWithPadding(myText: cubit.task['date'].toString()),
+
                               //time
                              if(cubit.task['startTime'] == null || cubit.task['endTime'] == null  )
                                const SizedBox(height: 10,),
                           if(cubit.task['startTime'] != '' || cubit.task['endTime'] != '' )
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Row(
-                                  children: const [
-                                    Icon(Icons.watch_later_outlined,color: CupertinoColors.white,size: 33,),
-                                    SizedBox(width: 15,),
-                                    Text('Time',style: TextStyle(color: Colors.white,fontSize: 40),),
-                                  ],
-                                ),
-                              ),
+                            const  IconAndText(text: 'Time', icon: Icons.watch_later_outlined),
+
                               if(cubit.task['startTime'] == null || cubit.task['endTime'] == null  )
                                 const SizedBox(height: 10,),
                               if(cubit.task['startTime'] != '' || cubit.task['endTime'] != '' )
-                                  Padding(
-                                padding:const EdgeInsets.all(8.0),
-                                child:  Text( '${cubit.task['startTime']} - ${cubit.task['endTime']}'
-                                ,  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 30
-                                ),),
-                              ),
+                                TextWithPadding(myText: '${cubit.task['startTime']} - ${cubit.task['endTime']}'),
 
                             ],
                           ),
