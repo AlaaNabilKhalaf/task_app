@@ -131,8 +131,8 @@ class TaskScreen extends StatelessWidget {
                               ),
 
                               //description
-                              const Padding(
-                                padding: EdgeInsets.all(10.0),
+                               Padding(
+                                padding:const EdgeInsets.all(10.0),
                                 child: Row(
                                   children:  [
                                     Icon(Icons.file_copy,color: CupertinoColors.white,size: 30,),
@@ -149,8 +149,8 @@ class TaskScreen extends StatelessWidget {
                                 ),),
                               ),
                               //date
-                              const Padding(
-                                padding:  EdgeInsets.all(10.0),
+                               Padding(
+                                padding:const  EdgeInsets.all(10.0),
                                 child: Row(
                                   children:[
                                     Icon(Icons.calendar_month_sharp,color: CupertinoColors.white,size: 30,),
@@ -170,8 +170,8 @@ class TaskScreen extends StatelessWidget {
                              if(cubit.task['startTime'] == null || cubit.task['endTime'] == null  )
                                const SizedBox(height: 10,),
                           if(cubit.task['startTime'] != '' || cubit.task['endTime'] != '' )
-                            const  Padding(
-                                padding: EdgeInsets.all(10.0),
+                              Padding(
+                                padding:const EdgeInsets.all(10.0),
                                 child: Row(
                                   children: [
                                     Icon(Icons.watch_later_outlined,color: CupertinoColors.white,size: 30,),

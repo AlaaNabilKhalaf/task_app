@@ -278,15 +278,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                           children: [
                                             MaterialButton(
                                               onPressed: (){
-                                                //Error is here
-                                                cubit.tasksData[index]['taskState'] = 'Complete';
-
-                                               // cubit.changeTheTextBool(index: index);
-                                               setState(()  {
-                                                 print(cubit.tasksData[index]['taskState']);
+                                                 cubit.changeStatus(index);
                                                 Navigator.pop(context);
                                                 cubit.startAnimated = true ;
-                                               });
+
                                          //   cubit.getTask(date: cubit.myDate);
                                             },
                                               color: myPrimeColor,
@@ -323,11 +318,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                             GestureDetector(
                                               onTap: (){
-                                                setState(() {
+
                                                   Navigator.pop(context);
                                                   cubit.startAnimated = true ;
                                                   print(cubit.tasksData[index]['taskState']);
-                                                });
+
                                               },
                                               child: Container(
                                                 alignment: Alignment.center,

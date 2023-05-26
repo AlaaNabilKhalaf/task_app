@@ -240,6 +240,10 @@ class HiveCubit extends Cubit<HiveStates> {
     );
   }
 
+  changeStatus(index) {
+    tasksData[index]['taskState'] = 'Completed';
+    emit(ChangeStatus());
+  }
 
 
 
